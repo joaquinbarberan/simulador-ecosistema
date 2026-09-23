@@ -1,207 +1,116 @@
 # Simulador de Ecosistema
 
-Simulación por turnos de un ecosistema, ejecutada en la terminal y desarrollada
-en **Java** para la primera instancia evaluativa de **Interfaz Gráfica**.
+Simulación por turnos de un ecosistema (plantas, conejos y lobos) que corre en la
+terminal. Proyecto en Java para la primera instancia evaluativa de Interfaz Gráfica.
 
-El jugador configura un ecosistema inicial con **plantas**, **conejos** y
-**lobos**, elige el clima y la cantidad de turnos, y observa cómo las poblaciones
-interactúan turno a turno: las plantas se reproducen, los conejos comen y se
-reproducen, y los lobos cazan. Cada 3 turnos puede intervenir. Al finalizar se
-muestra un reporte completo de la simulación.
+## Cómo ejecutar
 
----
+**NetBeans:** *File → Open Project* y elegir la carpeta `SimuladorEcosistema`
+(es un proyecto Java with Ant, JDK 25). Ejecutar con *Run Project* (F6); la
+clase principal es `ecosistema.Main`.
 
-## Requisitos e instrucciones de ejecución
-
-- **Java JDK 8 o superior** (desarrollado y probado con JDK 21).
-- No usa librerías externas: solo la biblioteca estándar de Java
-  (`java.util`).
-
-### Opción A — Desde la terminal
-
-Desde la carpeta raíz del proyecto (`SimuladorEcosistema/`):
+**Consola**, desde la carpeta `SimuladorEcosistema/`:
 
 ```bash
-# Compilar
 javac -encoding UTF-8 -d bin src/ecosistema/*.java
-
-# Ejecutar
 java -cp bin ecosistema.Main
 ```
 
-### Opción B — Desde NetBeans
-
-1. `File > New Project > Java with Ant > Java Application`.
-2. Copiar los archivos `.java` dentro del paquete `ecosistema` del proyecto
-   nuevo (o crear el paquete `ecosistema` y arrastrar los archivos de `src/`).
-3. Marcar `Main.java` como clase principal y ejecutar con **Run (F6)**.
-
-> Nota: la salida usa acentos y símbolos UTF-8. Si en la consola se ven
-> caracteres raros, verificar que la codificación del proyecto/terminal sea
-> UTF-8.
-
----
+No usa librerías externas. En `ejemplo_de_corrida.txt` hay una partida completa
+de ejemplo.
 
 ## Estructura del proyecto
 
 ```
 SimuladorEcosistema/
-├── src/ecosistema/
-│   ├── Entidad.java          (abstracta) clase base de todas las entidades
-│   ├── Planta.java           extiende Entidad, implementa Reproducible
-│   ├── PlantaVenenosa.java   (BONUS) extiende Planta, implementa Peligroso
-│   ├── Animal.java           (abstracta) extiende Entidad, implementa Mortal
-│   ├── Conejo.java           extiende Animal, implementa Reproducible
-│   ├── Lobo.java             extiende Animal, implementa Peligroso
-│   ├── Reproducible.java     (interface) reproducirse / puedeReproducirse
-│   ├── Mortal.java           (interface) estaVivo / morir + verificarMuerte()
-│   ├── Peligroso.java        (interface, BONUS) getNivelPeligro()
-│   ├── Clima.java            (enum) Soleado / Lluvioso / Sequía / Invierno
-│   ├── Ecosistema.java       núcleo: poblaciones, turnos, estadísticas, reporte
-│   └── Main.java             configuración, loop principal e intervención
-└── README.md
+├── src/ecosistema/     código fuente (paquete ecosistema)
+├── nbproject/          configuración del proyecto NetBeans
+├── build.xml           script de compilación de NetBeans (Ant)
+└── ejemplo_de_corrida.txt
 ```
 
----
+## Clases
 
-## Integrantes y rol de cada uno
+- `Entidad` (abstracta): base de todas las entidades. Atributos `nombre`,
+  `energia`, `edad`, `viva`; getters/setters validados; método concreto
+  `envejecer()` y abstractos `actuar()` / `mostrarEstado()`.
+- `Animal` (abstracta, implements Mortal): capa intermedia. Atributos
+  `velocidad`, `peso`; método concreto `moverse()`; abstracto `comer()`.
+- `Planta` (extends Entidad, implements Reproducible).
+- `PlantaVenenosa` (extends Planta, implements Peligroso) — bonus.
+- `Conejo` (extends Animal, implements Reproducible).
+- `Lobo` (extends Animal, implements Peligroso).
+- `Reproducible` (interface): `reproducirse`, `puedeReproducirse` y el default
+  `intentarReproduccion`.
+- `Mortal` (interface): `estaVivo`, `morir` y el default `verificarMuerte`.
+- `Peligroso` (interface): `getNivelPeligro` — bonus.
+- `Clima` (enum): Soleado, Lluvioso, Sequía, Invierno, con sus efectos.
+- `LimiteLobosException`: excepción propia para el máximo de 5 lobos.
+- `Ecosistema`: núcleo (poblaciones, `procesarTurno`, `agregarEntidad`,
+  `cambiarClima`, `ecosistemaColapsado`, `generarReporteFinal`).
+- `Main`: configuración con Scanner, loop principal e intervención.
 
-| Integrante | Rol |
-|------------|-----|
-| *(completar)* | *(completar)* |
-| *(completar)* | *(completar)* |
-| *(completar)* | *(completar)* |
+## Reglas del turno
 
----
+1. Plantas y conejos intentan reproducirse (un solo recorrido de `ArrayList<Reproducible>`).
+   - Planta: necesita `30 / factor del clima` de energía (Lluvioso 15, Soleado 20,
+     Sequía 60, Invierno no se reproduce). Máximo 60 plantas.
+   - Conejo: adulto (edad ≥ 2), energía > 60 y otro conejo vivo. Máximo 30 conejos.
+2. Los conejos con hambre (energía < 80) comen una planta al azar. Si es venenosa
+   pierden 30; si no hay plantas pierden 15.
+3. Los lobos cazan un conejo al azar. Probabilidad = 30% + energía/200
+   (+20% en Invierno), con tope de 95%.
+4. Todos envejecen (−5 de energía); las plantas recuperan 10 por fotosíntesis y
+   los animales reciben el efecto del clima.
+5. Muere quien se queda sin energía. La energía siempre está entre 0 y 100.
 
-## Diseño de Programación Orientada a Objetos
+## Requisitos de POO cubiertos
 
-### Jerarquía de herencia
+- Herencia en 3 niveles: `Entidad` -> `Animal` -> `Conejo` / `Lobo`.
+- Clase abstracta con métodos abstractos sobreescritos en cada subclase.
+- Interfaces con métodos default (`Reproducible`, `Mortal`).
+- Polimorfismo: en `procesarTurno()` se recorre un `ArrayList<Reproducible>`
+  con plantas y conejos; `PlantaVenenosa` se guarda en el mismo
+  `ArrayList<Planta>`; en el reporte se muestra cada sobreviviente con
+  `mostrarEstado()` desde un `ArrayList<Entidad>`.
+- Encapsulamiento: atributos privados con getters/setters validados.
+- Sobrecarga: `agregarEntidad(String)` y `agregarEntidad(String, double)`.
+- Excepción propia con try/catch: `LimiteLobosException`.
 
-```
-Entidad (abstracta)
-├── Planta  ──────────────► Reproducible
-│   └── PlantaVenenosa ────► Peligroso            (BONUS)
-└── Animal (abstracta) ────► Mortal
-    ├── Conejo ────────────► Reproducible
-    └── Lobo ──────────────► Peligroso            (BONUS)
-```
+## Bonus implementados
 
-- **`Entidad`** es la clase abstracta base. Define los atributos comunes
-  (`nombre`, `energia`, `edad`, `viva`) con **encapsulamiento completo** (todos
-  privados, con getters y setters validados: la energía nunca puede ser
-  negativa), un constructor con parámetros, el método concreto compartido
-  `envejecer()` y dos métodos abstractos: `actuar(Ecosistema)` y
-  `mostrarEstado()`.
-- **`Animal`** es la capa intermedia de herencia: aporta atributos propios
-  (`velocidad`, `peso`) y el **método concreto compartido `moverse()`**, dejando
-  abstracto `comer(Ecosistema)`.
+- Planta Venenosa (1 de cada 5 plantas creadas).
+- Historial de población por turno, con el turno de máximo y mínimo de cada una.
+- Interface `Peligroso`: en el reporte se listan lobos y plantas venenosas
+  ordenados por nivel de peligro (ordenamiento burbuja).
 
-### Interfaces
+## Integrantes y roles
 
-- **`Reproducible`** (la implementan `Planta` y `Conejo`): declara
-  `reproducirse()` y `puedeReproducirse()`, y aporta el **método default**
-  `intentarReproduccion()`. En `Ecosistema` se recorre un
-  `ArrayList<Reproducible>` que contiene plantas y conejos, procesando la
-  reproducción de ambos **en un mismo recorrido** → polimorfismo.
-- **`Mortal`** (la implementan los animales): declara `estaVivo()` y `morir()`,
-  y aporta el **método default** `verificarMuerte()` que centraliza la regla
-  "sin energía, muere".
-- **`Peligroso`** (BONUS, la implementan `Lobo` y `PlantaVenenosa`): declara
-  `getNivelPeligro()`. En el reporte final los elementos peligrosos se listan
-  ordenados por nivel.
+| Integrante | Archivos a su cargo |
+|------------|---------------------|
+| Joaquín | `Ecosistema.java`, `Main.java`, `LimiteLobosException.java` (núcleo y loop) |
+| Fabri | `Entidad.java`, `Animal.java`, `Reproducible.java`, `Mortal.java` |
+| Lucas | `Planta.java`, `PlantaVenenosa.java`, `Peligroso.java` |
+| Licha | `Conejo.java`, `Lobo.java`, `Clima.java` |
 
-### Requisitos de POO cubiertos
+## Desafíos encontrados
 
-| Requisito | Dónde |
-|-----------|-------|
-| Entidad abstracta con métodos abstractos correctamente sobreescritos | `Entidad` → `actuar()` / `mostrarEstado()` en cada subclase |
-| Animal como capa intermedia con método concreto compartido | `Animal.moverse()` |
-| `Reproducible` implementada por Planta y Conejo, usada con polimorfismo | `Ecosistema.procesarTurno()` recorre `ArrayList<Reproducible>` |
-| `Mortal` implementada por los animales, con método default aprovechado | `Mortal.verificarMuerte()` |
-| Encapsulamiento completo (atributos privados, getters/setters validados) | todas las clases |
-| Sobrecarga (al menos un método con 2 versiones) | `Ecosistema.agregarEntidad(String)` y `agregarEntidad(String, double)` |
-| Polimorfismo | `Reproducible`, `serComida()` (planta normal vs venenosa), lista de `Peligroso` |
+- **Balance de la simulación:** con los primeros valores los conejos se
+  multiplicaban cada turno, se comían todas las plantas y el ecosistema colapsaba
+  en el turno 3, antes de la primera intervención. Se resolvió con un tope de
+  energía (100), conejos que solo comen con hambre y se reproducen de adultos,
+  un máximo de 30 conejos y más energía de fotosíntesis para las plantas.
+- **Borrar muertos de una lista mientras se recorre:** se recorre de atrás para
+  adelante con un `for` por índice.
+- **Contar las muertes como eventos:** `verificarMuerte()` devuelve `true` si el
+  animal murió, así `Ecosistema` puede sumarla al turno de mayor actividad.
 
----
+## Uso de IA
 
-## Mecánica del juego
+*(Cada integrante completa su parte: links a las conversaciones completas o
+capturas de los prompts, indicando de quién es cada una.)*
 
-### Configuración inicial (con validación por `Scanner`)
-
-- Cantidad de plantas (5–30), conejos (2–15), lobos (1–5).
-- Clima inicial: Soleado, Lluvioso, Sequía o Invierno.
-- Cantidad de turnos (10–50).
-- Se confirma la configuración antes de iniciar; las entidades se crean con
-  energía aleatoria dentro de rangos razonables.
-
-### Orden de cada turno
-
-1. **Reproducción** de plantas y conejos (recorrido polimórfico sobre
-   `ArrayList<Reproducible>`).
-2. Los **conejos** buscan una planta y comen (si no hay, pierden 15 de energía).
-3. Los **lobos** intentan cazar un conejo (la probabilidad de éxito **aumenta
-   con la energía** del lobo — no es fija — y suma el bonus del clima).
-4. Todas las entidades **envejecen** y gastan energía base; se aplica el
-   **efecto del clima**.
-5. Las entidades **sin energía mueren**.
-6. Se muestra el **estado** del ecosistema (conteos y eventos del turno).
-
-### Clima y sus efectos
-
-| Clima | Plantas (reproducción) | Conejos (energía/turno) | Lobos |
-|-------|------------------------|--------------------------|-------|
-| Soleado | x1.5 | +5 | sin cambio |
-| Lluvioso | x2 | +3 | −5 energía/turno |
-| Sequía | x0.5 | −5 energía/turno | sin cambio |
-| Invierno | no se reproducen | −8 energía/turno | caza con +20% de éxito |
-
-### Intervención del jugador (cada 3 turnos)
-
-- Cambiar el clima.
-- Agregar una entidad (planta, conejo, lobo o —BONUS— planta venenosa).
-  Se valida que **no puedan existir más de 5 lobos en toda la simulación**.
-- Solo avanzar sin intervenir.
-
-Toda acción de intervención se confirma antes de ejecutarse.
-
-### Condiciones de fin
-
-- Se alcanzó el número de turnos configurado, **o**
-- Se extinguió alguna población (colapso del ecosistema).
-
-Al finalizar se muestra un **reporte final** con: causa de fin, turno de mayor
-actividad, entidad más longeva de cada tipo, lobo con más cacerías, total de
-nacimientos y muertes por tipo, y (BONUS) los máximos/mínimos poblacionales con
-su turno, el historial poblacional turno a turno y los elementos peligrosos
-ordenados por nivel.
-
----
-
-## Desafíos encontrados y decisiones de diseño
-
-- **Sostenibilidad del ecosistema.** Como todas las entidades gastan energía
-  base por existir pero las plantas no comen, se modeló la **fotosíntesis**:
-  las plantas generan energía por turno según el clima (son productoras). Sin
-  esto, las plantas estaban condenadas a extinguirse siempre.
-- **Crecimiento sin control.** Para evitar que las plantas crecieran de forma
-  exponencial, se agregó una **capacidad de carga** (la probabilidad de
-  reproducción de la planta baja a medida que hay más plantas).
-- **Equilibrio depredador-presa.** La reproducción de los conejos incorpora una
-  probabilidad, de modo que las poblaciones oscilen en lugar de explotar. Aun
-  así, el ecosistema es **frágil**: algunas partidas colapsan y otras completan
-  todos los turnos, lo cual es un comportamiento esperado.
-- **Modificación concurrente de listas.** Las crías nacidas durante un turno se
-  acumulan en un buffer y se integran al final de la fase de reproducción para
-  no modificar las listas mientras se recorren.
-- **Polimorfismo en `serComida()`.** El conejo no puede distinguir una planta
-  normal de una venenosa: llama a `serComida()` sin saber el tipo real; la
-  planta venenosa devuelve un valor nutritivo negativo (intoxicación).
-
----
-
-## Uso de IA / herramientas externas
-
-*(Completar según la documentación individual: links a las conversaciones o
-capturas de los prompts utilizados por cada integrante, tal como pide la
-consigna.)*
+- **Joaquín:** *(completar)*
+- **Fabri:** *(completar)*
+- **Lucas:** *(completar)*
+- **Licha:** *(completar)*

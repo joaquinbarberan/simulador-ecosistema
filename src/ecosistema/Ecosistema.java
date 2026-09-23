@@ -1,337 +1,217 @@
 package ecosistema;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
-/**
- * Núcleo de la simulación. Contiene las poblaciones (plantas, conejos y lobos),
- * el clima actual y el turno en curso. Orquesta el orden de acciones de cada
- * turno, mantiene las estadísticas y genera el reporte final.
- */
+// Nucleo de la simulacion: guarda las poblaciones, el clima y el turno actual.
 public class Ecosistema {
+    private ArrayList<Planta> plantas = new ArrayList<>();
+    private ArrayList<Conejo> conejos = new ArrayList<>();
+    private ArrayList<Lobo> lobos = new ArrayList<>();
+    private ArrayList<Lobo> todosLosLobos = new ArrayList<>(); // vivos y muertos, para el reporte final
 
-    /** Máximo de lobos que pueden existir en TODA la simulación. */
-    public static final int MAX_LOBOS_TOTALES = 5;
-
-    // ---- Poblaciones -----------------------------------------------------
-    private final ArrayList<Planta> plantas;
-    private final ArrayList<Conejo> conejos;
-    private final ArrayList<Lobo> lobos;
-
-    // Buffers para las crías nacidas durante un turno (evita ConcurrentModification)
-    private final ArrayList<Planta> plantasNuevas;
-    private final ArrayList<Conejo> conejosNuevas;
-
-    // ---- Estado ----------------------------------------------------------
     private Clima climaActual;
     private int turnoActual;
-    private final int turnosTotales;
-    private final Random rnd;
+    private int turnosTotales;
+    private Random random = new Random();
 
-    // ---- Contadores para nombres -----------------------------------------
+    // Nombres: uno al azar de la lista + un numero para que no se repitan (ej: Helecho-3)
+    private String[] nombresPlantas = {"Helecho", "Trebol", "Musgo", "Ortiga", "Cardo"};
+    private String[] nombresConejos = {"Blas", "Luna", "Topo", "Rex", "Nube", "Maya", "Copo"};
+    private String[] nombresLobos = {"Fang", "Sombra", "Garra", "Zeus", "Colmillo"};
+
+    // Contadores para darle un nombre unico a cada entidad
     private int contadorPlanta;
     private int contadorConejo;
     private int contadorLobo;
-    private int lobosCreadosTotal; // para respetar el máximo de 5
 
-    // ---- Estadísticas ----------------------------------------------------
-    private int eventosTurnoActual;
-    private int nacimientosPlanta, muertesPlanta;
-    private int nacimientosConejo, muertesConejo;
-    private int muertesLobo; // los lobos no nacen (no se reproducen)
+    // Lobos agregados en toda la simulacion (maximo 5)
+    private int lobosAgregados;
 
-    // Historial de conteo poblacional turno a turno: {turno, plantas, conejos, lobos}
-    private final List<int[]> historialConteos;
-    // Actividad por turno: {turno, eventos}
-    private final List<int[]> historialActividad;
-    // Todos los lobos que existieron (para el "lobo con más cacerías")
-    private final List<Lobo> historicoLobos;
-
-    // Máximos y mínimos poblacionales, con el turno en que ocurrieron
-    private int maxPlantas, turnoMaxPlantas, minPlantas, turnoMinPlantas;
-    private int maxConejos, turnoMaxConejos, minConejos, turnoMinConejos;
-    private int maxLobos, turnoMaxLobos, minLobos, turnoMinLobos;
-    private boolean extremosInicializados;
-
-    // Turno de mayor actividad
-    private int turnoMayorActividad;
+    // Estadisticas para el reporte final
+    private int eventosTurno;
     private int maxEventos;
+    private int turnoMayorActividad;
+    private int nacimientosPlanta;
+    private int muertesPlanta;
+    private int nacimientosConejo;
+    private int muertesConejo;
+    private int muertesLobo;
 
-    private static final String[] NOMBRES_CONEJO = {
-        "Blas", "Luna", "Rex", "Coco", "Nube", "Trueno", "Pelusa", "Copo",
-        "Bruno", "Maya", "Toby", "Dali"
-    };
-    private static final String[] NOMBRES_LOBO = {
-        "Fang", "Sombra", "Colmillo", "Garra", "Aullido", "Zeus"
-    };
+    // (BONUS) Historial: cuantos habia de cada poblacion al final de cada turno
+    private ArrayList<Integer> historialPlantas = new ArrayList<>();
+    private ArrayList<Integer> historialConejos = new ArrayList<>();
+    private ArrayList<Integer> historialLobos = new ArrayList<>();
 
-    /**
-     * @param climaInicial  clima con el que arranca la simulación
-     * @param turnosTotales cantidad de turnos configurada
-     */
     public Ecosistema(Clima climaInicial, int turnosTotales) {
-        this.plantas = new ArrayList<>();
-        this.conejos = new ArrayList<>();
-        this.lobos = new ArrayList<>();
-        this.plantasNuevas = new ArrayList<>();
-        this.conejosNuevas = new ArrayList<>();
         this.climaActual = climaInicial;
         this.turnosTotales = turnosTotales;
         this.turnoActual = 0;
-        this.rnd = new Random();
-        this.historialConteos = new ArrayList<>();
-        this.historialActividad = new ArrayList<>();
-        this.historicoLobos = new ArrayList<>();
     }
 
-    // =====================================================================
-    //  ALTA DE ENTIDADES  (incluye la SOBRECARGA de agregarEntidad)
-    // =====================================================================
+    // ---- Alta de entidades (SOBRECARGA: dos versiones de agregarEntidad) ----
 
-    /**
-     * Agrega una nueva entidad del tipo indicado con una energía inicial
-     * aleatoria dentro de un rango razonable.
-     *
-     * @param tipo "planta", "venenosa", "conejo" o "lobo"
-     * @return true si se pudo agregar (los lobos pueden rechazarse por el tope)
-     */
-    public boolean agregarEntidad(String tipo) {
-        double energiaAleatoria = 40 + rnd.nextInt(41); // 40-80
-        return agregarEntidad(tipo, energiaAleatoria);
+    // Version 1: sin energia -> se elige una energia aleatoria entre 40 y 80
+    public String agregarEntidad(String tipo) throws LimiteLobosException {
+        double energia = 40 + random.nextInt(41);
+        return agregarEntidad(tipo, energia);
     }
 
-    /**
-     * SOBRECARGA: agrega una nueva entidad del tipo indicado con una energía
-     * inicial específica.
-     *
-     * @param tipo          "planta", "venenosa", "conejo" o "lobo"
-     * @param energiaInicial energía con la que nace la entidad
-     * @return true si se pudo agregar
-     */
-    public boolean agregarEntidad(String tipo, double energiaInicial) {
-        if (tipo == null) {
-            return false;
+    // Version 2: con la energia inicial indicada. Devuelve el nombre de la entidad creada.
+    public String agregarEntidad(String tipo, double energia) throws LimiteLobosException {
+        if (tipo.equalsIgnoreCase("planta")) {
+            int tamanio = 1 + random.nextInt(5);
+            Planta nueva;
+            // (BONUS) 1 de cada 5 plantas es venenosa. Va a la misma lista de plantas.
+            if (random.nextInt(5) == 0) {
+                nueva = new PlantaVenenosa(nuevoNombrePlanta(), energia, tamanio);
+            } else {
+                nueva = new Planta(nuevoNombrePlanta(), energia, tamanio);
+            }
+            plantas.add(nueva);
+            return nueva.getNombre();
         }
-        switch (tipo.trim().toLowerCase()) {
-            case "planta":
-                plantas.add(new Planta(nombrarPlanta(), energiaInicial, 1 + rnd.nextInt(5)));
-                return true;
-            case "venenosa":
-                plantas.add(new PlantaVenenosa(nombrarPlanta(), energiaInicial, 1 + rnd.nextInt(5)));
-                return true;
-            case "conejo":
-                conejos.add(new Conejo(nombrarConejo(), energiaInicial,
-                        3 + rnd.nextInt(6), 1.0 + rnd.nextDouble() * 2));
-                return true;
-            case "lobo":
-                if (lobosCreadosTotal >= MAX_LOBOS_TOTALES) {
-                    return false; // se alcanzó el máximo de lobos de toda la simulación
-                }
-                Lobo l = new Lobo(nombrarLobo(), energiaInicial,
-                        5 + rnd.nextInt(6), 25.0 + rnd.nextDouble() * 15);
-                lobos.add(l);
-                historicoLobos.add(l);
-                lobosCreadosTotal++;
-                return true;
-            default:
-                return false;
+
+        if (tipo.equalsIgnoreCase("conejo")) {
+            Conejo nuevo = new Conejo(nuevoNombreConejo(), energia, 5, 2);
+            conejos.add(nuevo);
+            return nuevo.getNombre();
         }
+
+        if (tipo.equalsIgnoreCase("lobo")) {
+            if (lobosAgregados >= 5) {
+                throw new LimiteLobosException("No se pueden agregar mas de 5 lobos en toda la simulacion.");
+            }
+            Lobo nuevo = new Lobo(nuevoNombreLobo(), energia, 8, 30);
+            lobos.add(nuevo);
+            todosLosLobos.add(nuevo);
+            lobosAgregados++;
+            return nuevo.getNombre();
+        }
+
+        return ""; // tipo desconocido: no se agrega nada
     }
 
-    // =====================================================================
-    //  MOTOR DEL TURNO
-    // =====================================================================
+    // ---- Turno ----
 
-    /**
-     * Ejecuta el orden completo de acciones de un turno:
-     * <ol>
-     *   <li>Reproducción de plantas y conejos (recorrido polimórfico sobre
-     *       {@code ArrayList<Reproducible>}).</li>
-     *   <li>Los conejos buscan plantas y comen.</li>
-     *   <li>Los lobos intentan cazar.</li>
-     *   <li>Todas las entidades envejecen, gastan energía base y aplican el
-     *       efecto del clima.</li>
-     *   <li>Las entidades sin energía mueren.</li>
-     *   <li>Se muestra el estado del ecosistema.</li>
-     * </ol>
-     */
     public void procesarTurno() {
         turnoActual++;
-        eventosTurnoActual = 0;
-
+        eventosTurno = 0;
         System.out.println();
         System.out.println("=== TURNO " + turnoActual + " | Clima: " + climaActual + " ===");
-        System.out.printf("Plantas: %d  Conejos: %d  Lobos: %d%n",
-                plantas.size(), conejos.size(), lobos.size());
+        System.out.println("Plantas: " + plantas.size() + "  Conejos: " + conejos.size() + "  Lobos: " + lobos.size());
         System.out.println("-- Eventos --");
 
-        // 1. Reproducción: plantas y conejos en un mismo recorrido (polimorfismo)
-        List<Reproducible> reproductores = new ArrayList<>();
-        reproductores.addAll(plantas);
-        reproductores.addAll(conejos);
-        for (Reproducible r : reproductores) {
+        // 1. Reproduccion: plantas y conejos en un mismo recorrido (POLIMORFISMO con Reproducible)
+        ArrayList<Reproducible> reproducibles = new ArrayList<>();
+        reproducibles.addAll(plantas);
+        reproducibles.addAll(conejos);
+        for (Reproducible r : reproducibles) {
             r.intentarReproduccion(this);
         }
-        integrarNacimientos();
 
-        // 2. Los conejos buscan plantas cercanas y comen
-        for (Conejo c : new ArrayList<>(conejos)) {
-            if (c.estaVivo()) {
-                c.comer(this);
-            }
+        // 2. Los conejos buscan una planta y comen
+        for (Conejo c : conejos) {
+            c.comer(this);
         }
 
         // 3. Los lobos intentan cazar
-        for (Lobo l : new ArrayList<>(lobos)) {
-            if (l.estaVivo()) {
-                l.comer(this);
+        for (Lobo l : lobos) {
+            l.actuar(this);
+        }
+
+        // 4. Todos envejecen y gastan energia base. Despues se aplica el efecto del clima.
+        for (Planta p : plantas) {
+            if (p.estaViva()) {
+                p.envejecer();
+                p.setEnergia(p.getEnergia() + 10); // la fotosintesis les devuelve energia
             }
         }
-
-        // 4. Todas las entidades envejecen, gastan energía base y sufren el clima
-        for (Entidad e : todasLasEntidades()) {
-            e.envejecer();
-            aplicarEfectoClima(e);
-        }
-
-        // 5. Las entidades sin energía mueren
-        verificarMuertes();
-
-        if (eventosTurnoActual == 0) {
-            System.out.println("  (sin novedades este turno)");
-        }
-
-        // 6. Estado del ecosistema
-        registrarActividad();
-        actualizarExtremos();
-        registrarHistorial();
-        System.out.printf("Estado: Plantas: %d  Conejos: %d  Lobos: %d%n",
-                plantas.size(), conejos.size(), lobos.size());
-    }
-
-    /**
-     * Aplica el modificador de energía por turno que impone el clima a conejos
-     * y lobos (las plantas solo se ven afectadas en su reproducción).
-     */
-    private void aplicarEfectoClima(Entidad e) {
-        if (e instanceof Conejo) {
-            aplicarModificador(e, climaActual.getModEnergiaConejo());
-        } else if (e instanceof Lobo) {
-            aplicarModificador(e, climaActual.getModEnergiaLobo());
-        } else if (e instanceof Planta) {
-            // Las plantas son productoras: generan energía por fotosíntesis
-            // según la luz que aporta el clima.
-            e.ganarEnergia(climaActual.getEnergiaFotosintesis());
-        }
-    }
-
-    private void aplicarModificador(Entidad e, int mod) {
-        if (mod > 0) {
-            e.ganarEnergia(mod);
-        } else if (mod < 0) {
-            e.gastarEnergia(-mod);
-        }
-    }
-
-    /**
-     * Verifica muertes por falta de energía (regla default de {@link Mortal}
-     * para animales, y chequeo directo para plantas) y remueve del ecosistema a
-     * todas las entidades muertas, contabilizándolas.
-     */
-    private void verificarMuertes() {
-        // Animales: aprovechan el método default verificarMuerte() de Mortal
         for (Conejo c : conejos) {
             if (c.estaVivo()) {
-                c.verificarMuerte();
+                c.envejecer();
+                c.setEnergia(c.getEnergia() + climaActual.getEnergiaConejo());
             }
         }
         for (Lobo l : lobos) {
             if (l.estaVivo()) {
-                l.verificarMuerte();
+                l.envejecer();
+                l.setEnergia(l.getEnergia() + climaActual.getEnergiaLobo());
             }
         }
-        // Plantas: sin energía se marchitan
+
+        // 5. Las entidades sin energia mueren (verificarMuerte es el metodo default de Mortal)
+        for (Conejo c : conejos) {
+            if (c.verificarMuerte()) {
+                eventosTurno++;
+            }
+        }
+        for (Lobo l : lobos) {
+            if (l.verificarMuerte()) {
+                eventosTurno++;
+            }
+        }
         for (Planta p : plantas) {
             if (p.estaViva() && p.getEnergia() <= 0) {
                 p.setViva(false);
-                registrarEvento(p.getNombre() + " se marchitó");
+                registrarEvento("Planta " + p.getNombre() + " se seco");
             }
         }
-        // Remoción y conteo de muertes
-        muertesPlanta += removerMuertasPlantas();
-        muertesConejo += removerMuertosConejos();
-        muertesLobo += removerMuertosLobos();
+        removerMuertos();
+
+        if (eventosTurno == 0) {
+            System.out.println("  (sin novedades)");
+        }
+
+        // Guardar el turno con mas eventos
+        if (eventosTurno > maxEventos) {
+            maxEventos = eventosTurno;
+            turnoMayorActividad = turnoActual;
+        }
+
+        // (BONUS) Guardar como quedo cada poblacion en este turno
+        historialPlantas.add(plantas.size());
+        historialConejos.add(conejos.size());
+        historialLobos.add(lobos.size());
+
+        // 6. Estado del ecosistema al final del turno
+        System.out.println("Estado: Plantas: " + plantas.size() + "  Conejos: " + conejos.size() + "  Lobos: " + lobos.size());
     }
 
-    private int removerMuertasPlantas() {
-        int cont = 0;
+    // Saca de las listas a las entidades muertas y cuenta las muertes.
+    // Se recorre de atras para adelante para poder borrar sin saltear elementos.
+    private void removerMuertos() {
         for (int i = plantas.size() - 1; i >= 0; i--) {
             if (!plantas.get(i).estaViva()) {
                 plantas.remove(i);
-                cont++;
+                muertesPlanta++;
             }
         }
-        return cont;
-    }
-
-    private int removerMuertosConejos() {
-        int cont = 0;
         for (int i = conejos.size() - 1; i >= 0; i--) {
             if (!conejos.get(i).estaVivo()) {
                 conejos.remove(i);
-                cont++;
+                muertesConejo++;
             }
         }
-        return cont;
-    }
-
-    private int removerMuertosLobos() {
-        int cont = 0;
         for (int i = lobos.size() - 1; i >= 0; i--) {
             if (!lobos.get(i).estaVivo()) {
                 lobos.remove(i);
-                cont++;
+                muertesLobo++;
             }
         }
-        return cont;
     }
 
-    /** Mueve las crías nacidas este turno a las poblaciones principales. */
-    private void integrarNacimientos() {
-        plantas.addAll(plantasNuevas);
-        conejos.addAll(conejosNuevas);
-        plantasNuevas.clear();
-        conejosNuevas.clear();
-    }
+    // ---- Metodos que usan las entidades ----
 
-    // =====================================================================
-    //  SERVICIOS QUE USAN LAS ENTIDADES
-    // =====================================================================
-
-    /**
-     * Registra el nacimiento de una cría (por reproducción) en el buffer del
-     * turno y actualiza el contador de nacimientos por tipo.
-     */
-    public void registrarNacimiento(Entidad cria) {
-        if (cria instanceof Conejo) {
-            conejosNuevas.add((Conejo) cria);
-            nacimientosConejo++;
-        } else if (cria instanceof Planta) {
-            plantasNuevas.add((Planta) cria);
-            nacimientosPlanta++;
-        }
-    }
-
-    /** Imprime un evento del turno y lo contabiliza. */
+    // Imprime un evento del turno y lo cuenta
     public void registrarEvento(String mensaje) {
         System.out.println("  " + mensaje);
-        eventosTurnoActual++;
+        eventosTurno++;
     }
 
-    /** @return una planta viva elegida al azar, o null si no hay ninguna */
+    // Devuelve una planta viva al azar (o null si no hay ninguna)
     public Planta buscarPlantaViva() {
-        List<Planta> vivas = new ArrayList<>();
+        ArrayList<Planta> vivas = new ArrayList<>();
         for (Planta p : plantas) {
             if (p.estaViva()) {
                 vivas.add(p);
@@ -340,12 +220,12 @@ public class Ecosistema {
         if (vivas.isEmpty()) {
             return null;
         }
-        return vivas.get(rnd.nextInt(vivas.size()));
+        return vivas.get(random.nextInt(vivas.size()));
     }
 
-    /** @return un conejo vivo elegido al azar, o null si no hay ninguno */
-    public Conejo buscarConejoVivoAleatorio() {
-        List<Conejo> vivos = new ArrayList<>();
+    // Devuelve un conejo vivo al azar (o null si no hay ninguno)
+    public Conejo buscarConejoVivo() {
+        ArrayList<Conejo> vivos = new ArrayList<>();
         for (Conejo c : conejos) {
             if (c.estaVivo()) {
                 vivos.add(c);
@@ -354,315 +234,204 @@ public class Ecosistema {
         if (vivos.isEmpty()) {
             return null;
         }
-        return vivos.get(rnd.nextInt(vivos.size()));
+        return vivos.get(random.nextInt(vivos.size()));
+    }
+
+    public int contarPlantas() {
+        return plantas.size();
     }
 
     public int contarConejosVivos() {
-        int cont = 0;
+        int vivos = 0;
         for (Conejo c : conejos) {
             if (c.estaVivo()) {
-                cont++;
+                vivos++;
             }
         }
-        return cont;
+        return vivos;
     }
 
-    private List<Entidad> todasLasEntidades() {
-        List<Entidad> todas = new ArrayList<>();
-        todas.addAll(plantas);
-        todas.addAll(conejos);
-        todas.addAll(lobos);
-        return todas;
+    public void agregarPlanta(Planta p) { plantas.add(p); }
+    public void agregarConejo(Conejo c) { conejos.add(c); }
+
+    public void sumarNacimientoPlanta() { nacimientosPlanta++; }
+    public void sumarNacimientoConejo() { nacimientosConejo++; }
+
+    public String nuevoNombrePlanta() {
+        contadorPlanta++;
+        return nombresPlantas[random.nextInt(nombresPlantas.length)] + "-" + contadorPlanta;
     }
 
-    // ---- Generación de nombres únicos ------------------------------------
-
-    public String nombrarPlanta() {
-        return "Helecho-" + (++contadorPlanta);
+    public String nuevoNombreConejo() {
+        contadorConejo++;
+        return nombresConejos[random.nextInt(nombresConejos.length)] + "-" + contadorConejo;
     }
 
-    public String nombrarConejo() {
-        String base = NOMBRES_CONEJO[rnd.nextInt(NOMBRES_CONEJO.length)];
-        return base + "-" + (++contadorConejo);
+    public String nuevoNombreLobo() {
+        contadorLobo++;
+        return nombresLobos[random.nextInt(nombresLobos.length)] + "-" + contadorLobo;
     }
 
-    public String nombrarLobo() {
-        String base = NOMBRES_LOBO[rnd.nextInt(NOMBRES_LOBO.length)];
-        return base + "-" + (++contadorLobo);
-    }
+    // ---- Estado y control ----
 
-    // =====================================================================
-    //  ESTADO / INTERVENCIÓN
-    // =====================================================================
-
-    /**
-     * Muestra el conteo actual de cada entidad y el clima. También lista las
-     * entidades vivas con su estado individual.
-     */
     public void mostrarEstado() {
         System.out.println();
-        System.out.println("---------- ESTADO DEL ECOSISTEMA ----------");
-        System.out.println("Turno: " + turnoActual + " / " + turnosTotales
-                + "   |   Clima: " + climaActual);
-        System.out.printf("Plantas: %d   Conejos: %d   Lobos: %d%n",
-                plantas.size(), conejos.size(), lobos.size());
-        System.out.println("-------------------------------------------");
+        System.out.println("---- ESTADO DEL ECOSISTEMA ----");
+        System.out.println("Turno: " + turnoActual + " / " + turnosTotales + " | Clima: " + climaActual);
+        System.out.println("Plantas: " + plantas.size() + "  Conejos: " + conejos.size() + "  Lobos: " + lobos.size());
     }
 
-    /** Cambia el clima actual del ecosistema. */
     public void cambiarClima(Clima nuevo) {
-        if (nuevo != null) {
-            this.climaActual = nuevo;
-            System.out.println("El clima cambió a: " + nuevo);
-        }
+        this.climaActual = nuevo;
+        System.out.println("El clima cambio a: " + nuevo);
     }
 
-    /** @return true si alguna población llegó a 0 (colapso del ecosistema) */
+    // Devuelve true si alguna poblacion llego a 0
     public boolean ecosistemaColapsado() {
         return plantas.isEmpty() || conejos.isEmpty() || lobos.isEmpty();
     }
 
-    // ---- Estadísticas internas -------------------------------------------
+    // ---- Reporte final ----
 
-    private void registrarActividad() {
-        historialActividad.add(new int[]{turnoActual, eventosTurnoActual});
-        if (eventosTurnoActual > maxEventos) {
-            maxEventos = eventosTurnoActual;
-            turnoMayorActividad = turnoActual;
-        }
-    }
-
-    private void registrarHistorial() {
-        historialConteos.add(new int[]{turnoActual, plantas.size(),
-            conejos.size(), lobos.size()});
-    }
-
-    /**
-     * Actualiza los máximos y mínimos poblacionales con el conteo del turno
-     * actual. Se usa tanto en la configuración inicial (turno 0) como después
-     * de cada turno.
-     */
-    public void actualizarExtremos() {
-        int p = plantas.size();
-        int c = conejos.size();
-        int l = lobos.size();
-        if (!extremosInicializados) {
-            maxPlantas = minPlantas = p;
-            maxConejos = minConejos = c;
-            maxLobos = minLobos = l;
-            turnoMaxPlantas = turnoMinPlantas = turnoActual;
-            turnoMaxConejos = turnoMinConejos = turnoActual;
-            turnoMaxLobos = turnoMinLobos = turnoActual;
-            extremosInicializados = true;
-            return;
-        }
-        if (p > maxPlantas) { maxPlantas = p; turnoMaxPlantas = turnoActual; }
-        if (p < minPlantas) { minPlantas = p; turnoMinPlantas = turnoActual; }
-        if (c > maxConejos) { maxConejos = c; turnoMaxConejos = turnoActual; }
-        if (c < minConejos) { minConejos = c; turnoMinConejos = turnoActual; }
-        if (l > maxLobos) { maxLobos = l; turnoMaxLobos = turnoActual; }
-        if (l < minLobos) { minLobos = l; turnoMinLobos = turnoActual; }
-    }
-
-    /**
-     * Registra el estado inicial (turno 0) en las estadísticas, antes de que
-     * empiece el loop de simulación.
-     */
-    public void registrarEstadoInicial() {
-        actualizarExtremos();
-        registrarHistorial();
-    }
-
-    // =====================================================================
-    //  REPORTE FINAL
-    // =====================================================================
-
-    /**
-     * Imprime el reporte completo de la simulación: causa de fin, actividad,
-     * longevidad, cacerías, nacimientos/muertes, historial y elementos
-     * peligrosos.
-     */
     public void generarReporteFinal() {
         System.out.println();
-        System.out.println("==================================================");
-        System.out.println("            REPORTE FINAL DE LA SIMULACIÓN");
-        System.out.println("==================================================");
+        System.out.println("========== REPORTE FINAL ==========");
 
         // Causa de fin
-        System.out.println();
-        System.out.println("Causa de fin:");
         if (ecosistemaColapsado()) {
-            System.out.println("  Colapso del ecosistema en el turno " + turnoActual + ".");
-            System.out.println("  Población(es) extinta(s): " + poblacionesExtintas());
+            String extintas = "";
+            if (plantas.isEmpty()) extintas = extintas + "plantas ";
+            if (conejos.isEmpty()) extintas = extintas + "conejos ";
+            if (lobos.isEmpty()) extintas = extintas + "lobos ";
+            System.out.println("Causa de fin: colapso del ecosistema en el turno " + turnoActual
+                    + " (se extinguieron: " + extintas.trim() + ")");
         } else {
-            System.out.println("  Se completaron los " + turnosTotales + " turnos configurados.");
+            System.out.println("Causa de fin: se completaron los " + turnosTotales + " turnos.");
         }
 
-        // Actividad
+        // Turno de mayor actividad
+        System.out.println("Turno de mayor actividad: turno " + turnoMayorActividad + " (" + maxEventos + " eventos)");
+
+        // Entidad mas longeva de cada tipo (entre las que siguen vivas)
         System.out.println();
-        System.out.println("Turno de mayor actividad:");
-        if (turnoMayorActividad > 0) {
-            System.out.println("  Turno " + turnoMayorActividad + " con " + maxEventos + " eventos.");
-        } else {
-            System.out.println("  No se registró actividad.");
-        }
+        System.out.println("-- Mas longevas --");
+        System.out.println("Planta: " + masLongeva(new ArrayList<Entidad>(plantas)));
+        System.out.println("Conejo: " + masLongeva(new ArrayList<Entidad>(conejos)));
+        System.out.println("Lobo:   " + masLongeva(new ArrayList<Entidad>(lobos)));
 
-        // Entidad más longeva de cada tipo
-        System.out.println();
-        System.out.println("Entidad más longeva de cada tipo (mayor edad al finalizar):");
-        System.out.println("  Planta: " + descripcionMasLongeva(plantas));
-        System.out.println("  Conejo: " + descripcionMasLongeva(conejos));
-        System.out.println("  Lobo:   " + descripcionMasLongeva(lobos));
-
-        // Lobo con más cacerías
-        System.out.println();
-        System.out.println("Lobo con más cacerías exitosas:");
-        Lobo mejorCazador = loboConMasCacerias();
-        if (mejorCazador != null && mejorCazador.getExitosCaza() > 0) {
-            System.out.println("  " + mejorCazador.getNombre() + " con "
-                    + mejorCazador.getExitosCaza() + " cacerías.");
-        } else {
-            System.out.println("  Ningún lobo logró cazar.");
-        }
-
-        // Nacimientos y muertes por tipo
-        System.out.println();
-        System.out.println("Nacimientos y muertes por tipo (toda la simulación):");
-        System.out.printf("  Plantas -> nacimientos: %d | muertes: %d%n", nacimientosPlanta, muertesPlanta);
-        System.out.printf("  Conejos -> nacimientos: %d | muertes: %d%n", nacimientosConejo, muertesConejo);
-        System.out.printf("  Lobos   -> nacimientos: %d | muertes: %d%n", 0, muertesLobo);
-
-        // BONUS: máximos y mínimos poblacionales con su turno
-        System.out.println();
-        System.out.println("Máximos y mínimos poblacionales:");
-        System.out.printf("  Plantas -> máx %d (turno %d) | mín %d (turno %d)%n",
-                maxPlantas, turnoMaxPlantas, minPlantas, turnoMinPlantas);
-        System.out.printf("  Conejos -> máx %d (turno %d) | mín %d (turno %d)%n",
-                maxConejos, turnoMaxConejos, minConejos, turnoMinConejos);
-        System.out.printf("  Lobos   -> máx %d (turno %d) | mín %d (turno %d)%n",
-                maxLobos, turnoMaxLobos, minLobos, turnoMinLobos);
-
-        // BONUS: elementos peligrosos ordenados por nivel de peligro
-        System.out.println();
-        System.out.println("Elementos peligrosos presentes (ordenados por nivel):");
-        List<Peligroso> peligrosos = recolectarPeligrosos();
-        if (peligrosos.isEmpty()) {
-            System.out.println("  No quedan elementos peligrosos en el ecosistema.");
-        } else {
-            ordenarPorPeligroDesc(peligrosos);
-            for (Peligroso pel : peligrosos) {
-                String nombre = (pel instanceof Entidad) ? ((Entidad) pel).getNombre() : "?";
-                System.out.println("  " + nombre + " (nivel " + pel.getNivelPeligro() + ")");
-            }
-        }
-
-        // BONUS: historial de conteo poblacional turno a turno
-        System.out.println();
-        System.out.println("Historial poblacional (turno: plantas / conejos / lobos):");
-        for (int[] fila : historialConteos) {
-            System.out.printf("  T%-2d: %d / %d / %d%n", fila[0], fila[1], fila[2], fila[3]);
-        }
-
-        System.out.println();
-        System.out.println("==================================================");
-    }
-
-    private String poblacionesExtintas() {
-        List<String> extintas = new ArrayList<>();
-        if (plantas.isEmpty()) extintas.add("plantas");
-        if (conejos.isEmpty()) extintas.add("conejos");
-        if (lobos.isEmpty()) extintas.add("lobos");
-        return String.join(", ", extintas);
-    }
-
-    private String descripcionMasLongeva(List<? extends Entidad> lista) {
-        Entidad masLongeva = null;
-        for (Entidad e : lista) {
-            if (masLongeva == null || e.getEdad() > masLongeva.getEdad()) {
-                masLongeva = e;
-            }
-        }
-        if (masLongeva == null) {
-            return "ninguna sobrevivió";
-        }
-        return masLongeva.getNombre() + " (edad " + masLongeva.getEdad() + ")";
-    }
-
-    private Lobo loboConMasCacerias() {
+        // Lobo con mas cacerias (se cuentan tambien los que murieron)
         Lobo mejor = null;
-        for (Lobo l : historicoLobos) {
+        for (Lobo l : todosLosLobos) {
             if (mejor == null || l.getExitosCaza() > mejor.getExitosCaza()) {
                 mejor = l;
             }
         }
-        return mejor;
+        if (mejor != null) {
+            System.out.println("Lobo con mas cacerias: " + mejor.getNombre() + " (" + mejor.getExitosCaza() + ")");
+        }
+
+        // Nacimientos y muertes por tipo
+        System.out.println();
+        System.out.println("-- Nacimientos y muertes --");
+        System.out.println("Plantas -> nacimientos: " + nacimientosPlanta + " | muertes: " + muertesPlanta);
+        System.out.println("Conejos -> nacimientos: " + nacimientosConejo + " | muertes: " + muertesConejo);
+        System.out.println("Lobos   -> nacimientos: 0 (no se reproducen) | muertes: " + muertesLobo);
+
+        // (BONUS) Estadisticas: turno de maximo y minimo de cada poblacion
+        System.out.println();
+        System.out.println("-- Historial de poblacion --");
+        mostrarMaximoYMinimo("Plantas", historialPlantas);
+        mostrarMaximoYMinimo("Conejos", historialConejos);
+        mostrarMaximoYMinimo("Lobos", historialLobos);
+
+        // (BONUS) Elementos peligrosos ordenados por nivel
+        System.out.println();
+        System.out.println("-- Elementos peligrosos (de mayor a menor) --");
+        mostrarPeligrosos();
+
+        // Estado final de cada sobreviviente (POLIMORFISMO: cada uno se muestra a su manera)
+        System.out.println();
+        System.out.println("-- Sobrevivientes --");
+        ArrayList<Entidad> sobrevivientes = new ArrayList<>();
+        sobrevivientes.addAll(plantas);
+        sobrevivientes.addAll(conejos);
+        sobrevivientes.addAll(lobos);
+        if (sobrevivientes.isEmpty()) {
+            System.out.println("  No quedo ninguna entidad viva.");
+        }
+        for (Entidad e : sobrevivientes) {
+            e.mostrarEstado();
+        }
+        System.out.println("===================================");
     }
 
-    private List<Peligroso> recolectarPeligrosos() {
-        List<Peligroso> peligrosos = new ArrayList<>();
+    // Devuelve el nombre y la edad de la entidad mas vieja de una lista
+    private String masLongeva(ArrayList<Entidad> lista) {
+        Entidad masVieja = null;
+        for (Entidad e : lista) {
+            if (masVieja == null || e.getEdad() > masVieja.getEdad()) {
+                masVieja = e;
+            }
+        }
+        if (masVieja == null) {
+            return "no sobrevivio ninguna";
+        }
+        return masVieja.getNombre() + " (edad " + masVieja.getEdad() + ")";
+    }
+
+    // (BONUS) Busca en el historial el turno con mas y con menos individuos
+    private void mostrarMaximoYMinimo(String nombre, ArrayList<Integer> historial) {
+        if (historial.isEmpty()) {
+            return;
+        }
+        int posMax = 0;
+        int posMin = 0;
+        for (int i = 1; i < historial.size(); i++) {
+            if (historial.get(i) > historial.get(posMax)) posMax = i;
+            if (historial.get(i) < historial.get(posMin)) posMin = i;
+        }
+        // La posicion 0 de la lista corresponde al turno 1
+        System.out.println(nombre + ": maximo " + historial.get(posMax) + " en el turno " + (posMax + 1)
+                + " | minimo " + historial.get(posMin) + " en el turno " + (posMin + 1));
+    }
+
+    // (BONUS) Junta los lobos y las plantas venenosas vivas y los ordena por nivel de peligro
+    private void mostrarPeligrosos() {
+        ArrayList<Peligroso> peligrosos = new ArrayList<>();
         for (Planta p : plantas) {
             if (p instanceof Peligroso) {
                 peligrosos.add((Peligroso) p);
             }
         }
         for (Lobo l : lobos) {
-            peligrosos.add(l); // Lobo siempre es Peligroso
+            peligrosos.add(l);
         }
-        return peligrosos;
-    }
 
-    /** Ordena de mayor a menor nivel de peligro (selection sort simple). */
-    private void ordenarPorPeligroDesc(List<Peligroso> lista) {
-        for (int i = 0; i < lista.size() - 1; i++) {
-            int idxMax = i;
-            for (int j = i + 1; j < lista.size(); j++) {
-                if (lista.get(j).getNivelPeligro() > lista.get(idxMax).getNivelPeligro()) {
-                    idxMax = j;
+        if (peligrosos.isEmpty()) {
+            System.out.println("  No quedan elementos peligrosos.");
+            return;
+        }
+
+        // Ordenamiento burbuja: de mayor a menor nivel de peligro
+        for (int i = 0; i < peligrosos.size() - 1; i++) {
+            for (int j = 0; j < peligrosos.size() - 1 - i; j++) {
+                if (peligrosos.get(j).getNivelPeligro() < peligrosos.get(j + 1).getNivelPeligro()) {
+                    Peligroso aux = peligrosos.get(j);
+                    peligrosos.set(j, peligrosos.get(j + 1));
+                    peligrosos.set(j + 1, aux);
                 }
             }
-            if (idxMax != i) {
-                Peligroso tmp = lista.get(i);
-                lista.set(i, lista.get(idxMax));
-                lista.set(idxMax, tmp);
-            }
+        }
+
+        for (Peligroso p : peligrosos) {
+            System.out.println("  " + p.getNombre() + " (nivel " + p.getNivelPeligro() + ")");
         }
     }
 
-    // ---- Getters ---------------------------------------------------------
+    // ---- Getters ----
 
-    public Clima getClima() {
-        return climaActual;
-    }
-
-    public Random getRandom() {
-        return rnd;
-    }
-
-    public int getTurnoActual() {
-        return turnoActual;
-    }
-
-    public int getTurnosTotales() {
-        return turnosTotales;
-    }
-
-    public int getCantidadPlantas() {
-        return plantas.size();
-    }
-
-    public int getCantidadConejos() {
-        return conejos.size();
-    }
-
-    public int getCantidadLobos() {
-        return lobos.size();
-    }
-
-    public int getLobosCreadosTotal() {
-        return lobosCreadosTotal;
-    }
-
-    public boolean puedeAgregarLobo() {
-        return lobosCreadosTotal < MAX_LOBOS_TOTALES;
-    }
+    public Clima getClima() { return climaActual; }
+    public Random getRandom() { return random; }
+    public int getTurnoActual() { return turnoActual; }
+    public int getTurnosTotales() { return turnosTotales; }
 }

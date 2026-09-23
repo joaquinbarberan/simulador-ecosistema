@@ -1,0 +1,647 @@
+===== SIMULADOR DE ECOSISTEMA =====
+Cantidad inicial de plantas (5-30): 12
+Cantidad inicial de conejos (2-15): 6
+Cantidad inicial de lobos (1-5): 2
+Clima: 1. Soleado  2. Lluvioso  3. Sequia  4. Invierno
+Elija el clima (1-4): 1
+Cantidad de turnos (10-50): 15
+
+Resumen: 12 plantas, 6 conejos, 2 lobos, clima SOLEADO, 15 turnos.
+Confirmar configuracion? (s/n): s
+
+---- ESTADO DEL ECOSISTEMA ----
+Turno: 0 / 15 | Clima: SOLEADO
+Plantas: 12  Conejos: 6  Lobos: 2
+>>> Presione Enter para comenzar...
+=== TURNO 1 | Clima: SOLEADO ===
+Plantas: 12  Conejos: 6  Lobos: 2
+-- Eventos --
+  Planta Musgo-1 se reprodujo -> nueva planta Trebol-13 (energia: 25)
+  Planta Cardo-2 se reprodujo -> nueva planta Trebol-14 (energia: 25)
+  Planta Ortiga-3 se reprodujo -> nueva planta Helecho-15 (energia: 25)
+  Planta Cardo-4 se reprodujo -> nueva planta Cardo-16 (energia: 25)
+  Planta Musgo-5 se reprodujo -> nueva planta Helecho-17 (energia: 25)
+  Planta Trebol-6 se reprodujo -> nueva planta Helecho-18 (energia: 25)
+  Planta Musgo-7 se reprodujo -> nueva planta Ortiga-19 (energia: 25)
+  Planta Musgo-8 se reprodujo -> nueva planta Musgo-20 (energia: 25)
+  Planta Helecho-9 se reprodujo -> nueva planta Musgo-21 (energia: 25)
+  Planta Cardo-10 se reprodujo -> nueva planta Helecho-22 (energia: 25)
+  Planta Cardo-11 se reprodujo -> nueva planta Helecho-23 (energia: 25)
+  Planta Helecho-12 se reprodujo -> nueva planta Ortiga-24 (energia: 25)
+  Conejo Blas-1 comio Ortiga-24 (+10 energia)
+  Conejo Nube-2 comio Cardo-16 (+30 energia)
+  Conejo Blas-3 comio Cardo-4 y era VENENOSA (-30 energia)
+  Conejo Nube-4 comio Helecho-15 (+20 energia)
+  Conejo Rex-5 comio Helecho-9 y era VENENOSA (-30 energia)
+  Conejo Topo-6 comio Musgo-20 (+30 energia)
+  Lobo Zeus-1 cazo a Conejo Rex-5 (+30 energia) [cacerias: 1]
+  Lobo Colmillo-2 cazo a Conejo Nube-4 (+30 energia) [cacerias: 1]
+Estado: Plantas: 18  Conejos: 4  Lobos: 2
+>>> Presione Enter para continuar...
+=== TURNO 2 | Clima: SOLEADO ===
+Plantas: 18  Conejos: 4  Lobos: 2
+-- Eventos --
+  Planta Musgo-1 se reprodujo -> nueva planta Trebol-25 (energia: 25)
+  Planta Cardo-2 se reprodujo -> nueva planta Cardo-26 (energia: 25)
+  Planta Ortiga-3 se reprodujo -> nueva planta Musgo-27 (energia: 25)
+  Planta Musgo-5 se reprodujo -> nueva planta Cardo-28 (energia: 25)
+  Planta Trebol-6 se reprodujo -> nueva planta Cardo-29 (energia: 25)
+  Planta Musgo-7 se reprodujo -> nueva planta Cardo-30 (energia: 25)
+  Planta Musgo-8 se reprodujo -> nueva planta Trebol-31 (energia: 25)
+  Planta Cardo-10 se reprodujo -> nueva planta Trebol-32 (energia: 25)
+  Planta Cardo-11 se reprodujo -> nueva planta Cardo-33 (energia: 25)
+  Planta Helecho-12 se reprodujo -> nueva planta Helecho-34 (energia: 25)
+  Planta Trebol-13 se reprodujo -> nueva planta Trebol-35 (energia: 25)
+  Planta Trebol-14 se reprodujo -> nueva planta Helecho-36 (energia: 25)
+  Planta Helecho-17 se reprodujo -> nueva planta Musgo-37 (energia: 25)
+  Planta Helecho-18 se reprodujo -> nueva planta Cardo-38 (energia: 25)
+  Planta Ortiga-19 se reprodujo -> nueva planta Ortiga-39 (energia: 25)
+  Planta Musgo-21 se reprodujo -> nueva planta Ortiga-40 (energia: 25)
+  Planta Helecho-22 se reprodujo -> nueva planta Trebol-41 (energia: 25)
+  Planta Helecho-23 se reprodujo -> nueva planta Trebol-42 (energia: 25)
+  Conejo Blas-1 comio Cardo-10 (+50 energia)
+  Conejo Blas-3 comio Trebol-42 (+50 energia)
+  Conejo Topo-6 comio Trebol-6 (+40 energia)
+  Lobo Zeus-1 cazo a Conejo Blas-1 (+30 energia) [cacerias: 2]
+  Lobo Colmillo-2 cazo a Conejo Blas-3 (+30 energia) [cacerias: 2]
+Estado: Plantas: 33  Conejos: 2  Lobos: 2
+>>> Presione Enter para continuar...
+=== TURNO 3 | Clima: SOLEADO ===
+Plantas: 33  Conejos: 2  Lobos: 2
+-- Eventos --
+  Planta Musgo-1 se reprodujo -> nueva planta Helecho-43 (energia: 25)
+  Planta Ortiga-3 se reprodujo -> nueva planta Helecho-44 (energia: 25)
+  Planta Musgo-5 se reprodujo -> nueva planta Cardo-45 (energia: 25)
+  Planta Musgo-8 se reprodujo -> nueva planta Cardo-46 (energia: 25)
+  Planta Cardo-11 se reprodujo -> nueva planta Cardo-47 (energia: 25)
+  Planta Trebol-25 se reprodujo -> nueva planta Cardo-48 (energia: 25)
+  Planta Cardo-26 se reprodujo -> nueva planta Ortiga-49 (energia: 25)
+  Planta Musgo-27 se reprodujo -> nueva planta Cardo-50 (energia: 25)
+  Planta Cardo-28 se reprodujo -> nueva planta Cardo-51 (energia: 25)
+  Planta Cardo-29 se reprodujo -> nueva planta Trebol-52 (energia: 25)
+  Planta Cardo-30 se reprodujo -> nueva planta Trebol-53 (energia: 25)
+  Planta Trebol-31 se reprodujo -> nueva planta Cardo-54 (energia: 25)
+  Planta Trebol-32 se reprodujo -> nueva planta Helecho-55 (energia: 25)
+  Planta Cardo-33 se reprodujo -> nueva planta Cardo-56 (energia: 25)
+  Planta Helecho-34 se reprodujo -> nueva planta Helecho-57 (energia: 25)
+  Planta Trebol-35 se reprodujo -> nueva planta Helecho-58 (energia: 25)
+  Planta Helecho-36 se reprodujo -> nueva planta Trebol-59 (energia: 25)
+  Planta Musgo-37 se reprodujo -> nueva planta Trebol-60 (energia: 25)
+  Planta Cardo-38 se reprodujo -> nueva planta Helecho-61 (energia: 25)
+  Planta Ortiga-39 se reprodujo -> nueva planta Helecho-62 (energia: 25)
+  Planta Ortiga-40 se reprodujo -> nueva planta Ortiga-63 (energia: 25)
+  Planta Trebol-41 se reprodujo -> nueva planta Helecho-64 (energia: 25)
+  Conejo Nube-2 tuvo una cria -> nuevo conejo Rex-7 (energia: 40)
+  Conejo Topo-6 tuvo una cria -> nuevo conejo Rex-8 (energia: 40)
+  Conejo Nube-2 comio Helecho-62 (+20 energia)
+  Conejo Topo-6 comio Trebol-41 (+50 energia)
+  Conejo Rex-7 comio Cardo-45 (+30 energia)
+  Conejo Rex-8 comio Trebol-32 (+50 energia)
+  Lobo Zeus-1 fallo la caza
+  Lobo Colmillo-2 cazo a Conejo Rex-7 (+30 energia) [cacerias: 3]
+Estado: Plantas: 51  Conejos: 3  Lobos: 2
+>>> Presione Enter para continuar...
+
+=== INTERVENCION (cada 3 turnos) ===
+1. Cambiar clima (actual: SOLEADO)
+2. Agregar entidad
+3. Solo avanzar
+Opcion (1-3): 1
+Clima: 1. Soleado  2. Lluvioso  3. Sequia  4. Invierno
+Elija el clima (1-4): 2
+Cambiar el clima a LLUVIOSO? (s/n): s
+El clima cambio a: LLUVIOSO
+=== TURNO 4 | Clima: LLUVIOSO ===
+Plantas: 51  Conejos: 3  Lobos: 2
+-- Eventos --
+  Planta Musgo-1 se reprodujo -> nueva planta Ortiga-65 (energia: 25)
+  Planta Cardo-2 se reprodujo -> nueva planta Ortiga-66 (energia: 25)
+  Planta Ortiga-3 se reprodujo -> nueva planta Ortiga-67 (energia: 25)
+  Planta Musgo-7 se reprodujo -> nueva planta Musgo-68 (energia: 25)
+  Planta Cardo-11 se reprodujo -> nueva planta Cardo-69 (energia: 25)
+  Planta Helecho-12 se reprodujo -> nueva planta Cardo-70 (energia: 25)
+  Planta Trebol-13 se reprodujo -> nueva planta Ortiga-71 (energia: 25)
+  Planta Trebol-14 se reprodujo -> nueva planta Trebol-72 (energia: 25)
+  Planta Helecho-17 se reprodujo -> nueva planta Cardo-73 (energia: 25)
+  Conejo Nube-2 tuvo una cria -> nuevo conejo Copo-9 (energia: 40)
+  Conejo Topo-6 tuvo una cria -> nuevo conejo Luna-10 (energia: 40)
+  Conejo Nube-2 comio Ortiga-65 (+10 energia)
+  Conejo Topo-6 comio Ortiga-39 (+20 energia)
+  Conejo Copo-9 comio Cardo-47 (+50 energia)
+  Conejo Luna-10 comio Musgo-27 (+20 energia)
+  Lobo Zeus-1 cazo a Conejo Luna-10 (+30 energia) [cacerias: 3]
+  Lobo Colmillo-2 fallo la caza
+Estado: Plantas: 56  Conejos: 4  Lobos: 2
+>>> Presione Enter para continuar...
+=== TURNO 5 | Clima: LLUVIOSO ===
+Plantas: 56  Conejos: 4  Lobos: 2
+-- Eventos --
+  Planta Musgo-1 se reprodujo -> nueva planta Cardo-74 (energia: 25)
+  Planta Musgo-5 se reprodujo -> nueva planta Ortiga-75 (energia: 25)
+  Planta Musgo-8 se reprodujo -> nueva planta Cardo-76 (energia: 25)
+  Planta Cardo-11 se reprodujo -> nueva planta Trebol-77 (energia: 25)
+  Conejo Topo-6 tuvo una cria -> nuevo conejo Topo-11 (energia: 40)
+  Conejo Rex-8 tuvo una cria -> nuevo conejo Maya-12 (energia: 40)
+  Conejo Nube-2 comio Ortiga-19 (+20 energia)
+  Conejo Topo-6 comio Cardo-50 (+20 energia)
+  Conejo Rex-8 comio Ortiga-49 (+50 energia)
+  Conejo Topo-11 comio Helecho-12 (+10 energia)
+  Conejo Maya-12 comio Cardo-73 (+30 energia)
+  Lobo Zeus-1 cazo a Conejo Rex-8 (+30 energia) [cacerias: 4]
+  Lobo Colmillo-2 cazo a Conejo Nube-2 (+30 energia) [cacerias: 4]
+Estado: Plantas: 55  Conejos: 4  Lobos: 2
+>>> Presione Enter para continuar...
+=== TURNO 6 | Clima: LLUVIOSO ===
+Plantas: 55  Conejos: 4  Lobos: 2
+-- Eventos --
+  Planta Cardo-2 se reprodujo -> nueva planta Musgo-78 (energia: 25)
+  Planta Ortiga-3 se reprodujo -> nueva planta Cardo-79 (energia: 25)
+  Planta Musgo-7 se reprodujo -> nueva planta Trebol-80 (energia: 25)
+  Planta Trebol-13 se reprodujo -> nueva planta Helecho-81 (energia: 25)
+  Planta Trebol-14 se reprodujo -> nueva planta Ortiga-82 (energia: 25)
+  Conejo Copo-9 tuvo una cria -> nuevo conejo Blas-13 (energia: 40)
+  Conejo Topo-6 comio Musgo-68 (+20 energia)
+  Conejo Copo-9 comio Helecho-43 (+10 energia)
+  Conejo Topo-11 comio Musgo-37 (+30 energia)
+  Conejo Maya-12 comio Trebol-14 (+50 energia)
+  Conejo Blas-13 comio Trebol-31 (+30 energia)
+  Lobo Zeus-1 fallo la caza
+  Lobo Colmillo-2 cazo a Conejo Topo-11 (+30 energia) [cacerias: 5]
+Estado: Plantas: 55  Conejos: 4  Lobos: 2
+>>> Presione Enter para continuar...
+
+=== INTERVENCION (cada 3 turnos) ===
+1. Cambiar clima (actual: LLUVIOSO)
+2. Agregar entidad
+3. Solo avanzar
+Opcion (1-3): 2
+Que entidad agregar? (planta/conejo/lobo): lobo
+Queres indicar la energia inicial? (s/n): s
+Energia inicial (10-100): 90
+Agregar lobo? (s/n): s
+Se agrego 'Garra-3' al ecosistema.
+=== TURNO 7 | Clima: LLUVIOSO ===
+Plantas: 55  Conejos: 4  Lobos: 3
+-- Eventos --
+  Planta Musgo-1 se reprodujo -> nueva planta Musgo-83 (energia: 25)
+  Planta Musgo-5 se reprodujo -> nueva planta Ortiga-84 (energia: 25)
+  Planta Musgo-8 se reprodujo -> nueva planta Ortiga-85 (energia: 25)
+  Planta Cardo-11 se reprodujo -> nueva planta Cardo-86 (energia: 25)
+  Planta Helecho-17 se reprodujo -> nueva planta Helecho-87 (energia: 25)
+  Conejo Topo-6 tuvo una cria -> nuevo conejo Maya-14 (energia: 40)
+  Conejo Maya-12 tuvo una cria -> nuevo conejo Maya-15 (energia: 40)
+  Conejo Topo-6 comio Musgo-83 (+10 energia)
+  Conejo Copo-9 comio Cardo-11 (+50 energia)
+  Conejo Maya-12 comio Cardo-46 (+30 energia)
+  Conejo Blas-13 comio Trebol-35 (+10 energia)
+  Conejo Maya-14 comio Musgo-5 y era VENENOSA (-30 energia)
+  Conejo Maya-15 comio Cardo-54 (+30 energia)
+  Lobo Zeus-1 fallo la caza
+  Lobo Colmillo-2 fallo la caza
+  Lobo Garra-3 fallo la caza
+Estado: Plantas: 54  Conejos: 6  Lobos: 3
+>>> Presione Enter para continuar...
+=== TURNO 8 | Clima: LLUVIOSO ===
+Plantas: 54  Conejos: 6  Lobos: 3
+-- Eventos --
+  Planta Cardo-2 se reprodujo -> nueva planta Trebol-88 (energia: 25)
+  Planta Ortiga-3 se reprodujo -> nueva planta Ortiga-89 (energia: 25)
+  Planta Musgo-7 se reprodujo -> nueva planta Ortiga-90 (energia: 25)
+  Planta Trebol-13 se reprodujo -> nueva planta Helecho-91 (energia: 25)
+  Planta Helecho-18 se reprodujo -> nueva planta Trebol-92 (energia: 25)
+  Planta Musgo-21 se reprodujo -> nueva planta Helecho-93 (energia: 25)
+  Conejo Copo-9 tuvo una cria -> nuevo conejo Blas-16 (energia: 40)
+  Conejo Maya-12 tuvo una cria -> nuevo conejo Blas-17 (energia: 40)
+  Conejo Blas-13 tuvo una cria -> nuevo conejo Maya-18 (energia: 40)
+  Conejo Topo-6 comio Ortiga-63 (+10 energia)
+  Conejo Copo-9 comio Ortiga-82 (+50 energia)
+  Conejo Maya-12 comio Cardo-29 (+40 energia)
+  Conejo Blas-13 comio Musgo-8 y era VENENOSA (-30 energia)
+  Conejo Maya-14 comio Helecho-55 (+50 energia)
+  Conejo Maya-15 comio Helecho-93 (+10 energia)
+  Conejo Blas-16 comio Helecho-44 (+20 energia)
+  Conejo Blas-17 comio Ortiga-84 (+30 energia)
+  Conejo Maya-18 comio Trebol-60 (+30 energia)
+  Lobo Zeus-1 fallo la caza
+  Lobo Colmillo-2 cazo a Conejo Blas-17 (+30 energia) [cacerias: 6]
+  Lobo Garra-3 cazo a Conejo Blas-16 (+30 energia) [cacerias: 1]
+Estado: Plantas: 51  Conejos: 7  Lobos: 3
+>>> Presione Enter para continuar...
+=== TURNO 9 | Clima: LLUVIOSO ===
+Plantas: 51  Conejos: 7  Lobos: 3
+-- Eventos --
+  Planta Musgo-1 se reprodujo -> nueva planta Cardo-94 (energia: 25)
+  Planta Helecho-17 se reprodujo -> nueva planta Musgo-95 (energia: 25)
+  Planta Helecho-18 se reprodujo -> nueva planta Musgo-96 (energia: 25)
+  Planta Musgo-21 se reprodujo -> nueva planta Musgo-97 (energia: 25)
+  Planta Helecho-22 se reprodujo -> nueva planta Ortiga-98 (energia: 25)
+  Planta Helecho-23 se reprodujo -> nueva planta Cardo-99 (energia: 25)
+  Planta Trebol-25 se reprodujo -> nueva planta Ortiga-100 (energia: 25)
+  Planta Cardo-26 se reprodujo -> nueva planta Cardo-101 (energia: 25)
+  Planta Cardo-28 se reprodujo -> nueva planta Ortiga-102 (energia: 25)
+  Conejo Copo-9 tuvo una cria -> nuevo conejo Copo-19 (energia: 40)
+  Conejo Maya-12 tuvo una cria -> nuevo conejo Luna-20 (energia: 40)
+  Conejo Maya-15 tuvo una cria -> nuevo conejo Nube-21 (energia: 40)
+  Conejo Topo-6 comio Trebol-88 (+50 energia)
+  Conejo Copo-9 comio Musgo-95 (+30 energia)
+  Conejo Maya-12 comio Ortiga-67 (+20 energia)
+  Conejo Blas-13 comio Helecho-87 (+30 energia)
+  Conejo Maya-14 comio Helecho-22 (+50 energia)
+  Conejo Maya-15 comio Helecho-61 (+40 energia)
+  Conejo Maya-18 comio Helecho-91 (+10 energia)
+  Conejo Copo-19 comio Musgo-7 (+20 energia)
+  Conejo Luna-20 comio Ortiga-71 (+10 energia)
+  Conejo Nube-21 comio Cardo-30 (+20 energia)
+  Lobo Zeus-1 cazo a Conejo Maya-18 (+30 energia) [cacerias: 5]
+  Lobo Colmillo-2 fallo la caza
+  Lobo Garra-3 cazo a Conejo Copo-19 (+30 energia) [cacerias: 2]
+Estado: Plantas: 50  Conejos: 8  Lobos: 3
+>>> Presione Enter para continuar...
+
+=== INTERVENCION (cada 3 turnos) ===
+1. Cambiar clima (actual: LLUVIOSO)
+2. Agregar entidad
+3. Solo avanzar
+Opcion (1-3): 2
+Que entidad agregar? (planta/conejo/lobo): planta
+Queres indicar la energia inicial? (s/n): n
+Agregar planta? (s/n): s
+Se agrego 'Trebol-103' al ecosistema.
+=== TURNO 10 | Clima: LLUVIOSO ===
+Plantas: 51  Conejos: 8  Lobos: 3
+-- Eventos --
+  Planta Cardo-2 se reprodujo -> nueva planta Trebol-104 (energia: 25)
+  Planta Ortiga-3 se reprodujo -> nueva planta Ortiga-105 (energia: 25)
+  Planta Trebol-13 se reprodujo -> nueva planta Helecho-106 (energia: 25)
+  Planta Helecho-23 se reprodujo -> nueva planta Cardo-107 (energia: 25)
+  Planta Trebol-25 se reprodujo -> nueva planta Helecho-108 (energia: 25)
+  Planta Cardo-26 se reprodujo -> nueva planta Ortiga-109 (energia: 25)
+  Planta Cardo-28 se reprodujo -> nueva planta Ortiga-110 (energia: 25)
+  Planta Cardo-33 se reprodujo -> nueva planta Trebol-111 (energia: 25)
+  Planta Helecho-34 se reprodujo -> nueva planta Cardo-112 (energia: 25)
+  Conejo Topo-6 tuvo una cria -> nuevo conejo Copo-22 (energia: 40)
+  Conejo Copo-9 tuvo una cria -> nuevo conejo Blas-23 (energia: 40)
+  Conejo Maya-12 tuvo una cria -> nuevo conejo Copo-24 (energia: 40)
+  Conejo Maya-14 tuvo una cria -> nuevo conejo Topo-25 (energia: 40)
+  Conejo Maya-15 tuvo una cria -> nuevo conejo Luna-26 (energia: 40)
+  Conejo Topo-6 comio Cardo-94 (+10 energia)
+  Conejo Copo-9 comio Helecho-106 (+10 energia)
+  Conejo Maya-12 comio Helecho-17 (+30 energia)
+  Conejo Blas-13 comio Ortiga-105 (+20 energia)
+  Conejo Maya-14 comio Helecho-64 (+50 energia)
+  Conejo Maya-15 comio Helecho-108 (+10 energia)
+  Conejo Luna-20 comio Helecho-34 (+10 energia)
+  Conejo Nube-21 comio Trebol-77 (+50 energia)
+  Conejo Copo-22 comio Helecho-36 (+50 energia)
+  Conejo Blas-23 comio Cardo-56 (+50 energia)
+  Conejo Copo-24 comio Helecho-23 (+50 energia)
+  Conejo Topo-25 comio Trebol-13 (+10 energia)
+  Conejo Luna-26 comio Cardo-70 (+10 energia)
+  Lobo Zeus-1 fallo la caza
+  Lobo Colmillo-2 cazo a Conejo Maya-14 (+30 energia) [cacerias: 7]
+  Lobo Garra-3 cazo a Conejo Blas-13 (+30 energia) [cacerias: 3]
+Estado: Plantas: 47  Conejos: 11  Lobos: 3
+>>> Presione Enter para continuar...
+=== TURNO 11 | Clima: LLUVIOSO ===
+Plantas: 47  Conejos: 11  Lobos: 3
+-- Eventos --
+  Planta Musgo-1 se reprodujo -> nueva planta Musgo-113 (energia: 25)
+  Planta Helecho-18 se reprodujo -> nueva planta Musgo-114 (energia: 25)
+  Planta Musgo-21 se reprodujo -> nueva planta Musgo-115 (energia: 25)
+  Planta Cardo-33 se reprodujo -> nueva planta Ortiga-116 (energia: 25)
+  Planta Cardo-38 se reprodujo -> nueva planta Trebol-117 (energia: 25)
+  Planta Ortiga-40 se reprodujo -> nueva planta Musgo-118 (energia: 25)
+  Planta Cardo-48 se reprodujo -> nueva planta Cardo-119 (energia: 25)
+  Planta Cardo-51 se reprodujo -> nueva planta Musgo-120 (energia: 25)
+  Planta Trebol-52 se reprodujo -> nueva planta Trebol-121 (energia: 25)
+  Planta Trebol-53 se reprodujo -> nueva planta Musgo-122 (energia: 25)
+  Planta Helecho-57 se reprodujo -> nueva planta Musgo-123 (energia: 25)
+  Planta Helecho-58 se reprodujo -> nueva planta Helecho-124 (energia: 25)
+  Planta Trebol-59 se reprodujo -> nueva planta Ortiga-125 (energia: 25)
+  Conejo Topo-6 tuvo una cria -> nuevo conejo Blas-27 (energia: 40)
+  Conejo Nube-21 tuvo una cria -> nuevo conejo Copo-28 (energia: 40)
+  Conejo Topo-6 comio Cardo-28 (+30 energia)
+  Conejo Copo-9 comio Musgo-21 (+10 energia)
+  Conejo Maya-12 comio Cardo-101 (+50 energia)
+  Conejo Maya-15 comio Musgo-114 (+40 energia)
+  Conejo Luna-20 comio Cardo-119 (+10 energia)
+  Conejo Nube-21 comio Ortiga-75 (+30 energia)
+  Conejo Topo-25 comio Cardo-74 (+10 energia)
+  Conejo Luna-26 comio Cardo-107 (+50 energia)
+  Conejo Blas-27 comio Cardo-33 (+50 energia)
+  Conejo Copo-28 comio Musgo-118 (+10 energia)
+  Lobo Zeus-1 cazo a Conejo Copo-22 (+30 energia) [cacerias: 6]
+  Lobo Colmillo-2 cazo a Conejo Copo-24 (+30 energia) [cacerias: 8]
+  Lobo Garra-3 cazo a Conejo Maya-15 (+30 energia) [cacerias: 4]
+Estado: Plantas: 50  Conejos: 10  Lobos: 3
+>>> Presione Enter para continuar...
+=== TURNO 12 | Clima: LLUVIOSO ===
+Plantas: 50  Conejos: 10  Lobos: 3
+-- Eventos --
+  Planta Cardo-2 se reprodujo -> nueva planta Helecho-126 (energia: 25)
+  Planta Ortiga-3 se reprodujo -> nueva planta Trebol-127 (energia: 25)
+  Planta Trebol-25 se reprodujo -> nueva planta Musgo-128 (energia: 25)
+  Planta Cardo-26 se reprodujo -> nueva planta Ortiga-129 (energia: 25)
+  Planta Cardo-38 se reprodujo -> nueva planta Trebol-130 (energia: 25)
+  Planta Ortiga-40 se reprodujo -> nueva planta Musgo-131 (energia: 25)
+  Planta Cardo-48 se reprodujo -> nueva planta Ortiga-132 (energia: 25)
+  Planta Cardo-51 se reprodujo -> nueva planta Cardo-133 (energia: 25)
+  Planta Trebol-52 se reprodujo -> nueva planta Ortiga-134 (energia: 25)
+  Planta Trebol-53 se reprodujo -> nueva planta Helecho-135 (energia: 25)
+  Conejo Copo-9 tuvo una cria -> nuevo conejo Blas-29 (energia: 40)
+  Conejo Maya-12 tuvo una cria -> nuevo conejo Nube-30 (energia: 40)
+  Conejo Luna-20 tuvo una cria -> nuevo conejo Topo-31 (energia: 40)
+  Conejo Nube-21 tuvo una cria -> nuevo conejo Rex-32 (energia: 40)
+  Conejo Blas-23 tuvo una cria -> nuevo conejo Luna-33 (energia: 40)
+  Conejo Luna-26 tuvo una cria -> nuevo conejo Copo-34 (energia: 40)
+  Conejo Topo-6 comio Ortiga-40 (+10 energia)
+  Conejo Copo-9 comio Trebol-103 (+10 energia)
+  Conejo Maya-12 comio Cardo-69 (+50 energia)
+  Conejo Luna-20 comio Ortiga-109 (+50 energia)
+  Conejo Nube-21 comio Ortiga-90 (+20 energia)
+  Conejo Blas-23 comio Ortiga-102 (+30 energia)
+  Conejo Topo-25 comio Trebol-80 (+20 energia)
+  Conejo Luna-26 comio Cardo-76 (+30 energia)
+  Conejo Copo-28 comio Cardo-133 (+30 energia)
+  Conejo Blas-29 comio Ortiga-3 y era VENENOSA (-30 energia)
+  Conejo Nube-30 comio Musgo-120 (+30 energia)
+  Conejo Topo-31 comio Trebol-25 (+10 energia)
+  Conejo Rex-32 comio Musgo-131 (+10 energia)
+  Conejo Luna-33 comio Cardo-86 (+50 energia)
+  Conejo Copo-34 comio Trebol-130 (+40 energia)
+  Lobo Zeus-1 cazo a Conejo Luna-26 (+30 energia) [cacerias: 7]
+  Lobo Colmillo-2 cazo a Conejo Nube-30 (+30 energia) [cacerias: 9]
+  Lobo Garra-3 cazo a Conejo Topo-31 (+30 energia) [cacerias: 5]
+Estado: Plantas: 45  Conejos: 13  Lobos: 3
+>>> Presione Enter para continuar...
+
+=== INTERVENCION (cada 3 turnos) ===
+1. Cambiar clima (actual: LLUVIOSO)
+2. Agregar entidad
+3. Solo avanzar
+Opcion (1-3): 3
+Se avanza sin intervenir.
+=== TURNO 13 | Clima: LLUVIOSO ===
+Plantas: 45  Conejos: 13  Lobos: 3
+-- Eventos --
+  Planta Musgo-1 se reprodujo -> nueva planta Helecho-136 (energia: 25)
+  Planta Helecho-18 se reprodujo -> nueva planta Musgo-137 (energia: 25)
+  Planta Cardo-38 se reprodujo -> nueva planta Helecho-138 (energia: 25)
+  Planta Cardo-48 se reprodujo -> nueva planta Musgo-139 (energia: 25)
+  Planta Cardo-51 se reprodujo -> nueva planta Trebol-140 (energia: 25)
+  Planta Trebol-52 se reprodujo -> nueva planta Trebol-141 (energia: 25)
+  Planta Trebol-53 se reprodujo -> nueva planta Trebol-142 (energia: 25)
+  Planta Helecho-57 se reprodujo -> nueva planta Trebol-143 (energia: 25)
+  Planta Helecho-58 se reprodujo -> nueva planta Helecho-144 (energia: 25)
+  Planta Trebol-59 se reprodujo -> nueva planta Helecho-145 (energia: 25)
+  Planta Ortiga-66 se reprodujo -> nueva planta Trebol-146 (energia: 25)
+  Planta Trebol-72 se reprodujo -> nueva planta Musgo-147 (energia: 25)
+  Planta Musgo-78 se reprodujo -> nueva planta Helecho-148 (energia: 25)
+  Planta Cardo-79 se reprodujo -> nueva planta Helecho-149 (energia: 25)
+  Planta Helecho-81 se reprodujo -> nueva planta Musgo-150 (energia: 25)
+  Conejo Topo-6 tuvo una cria -> nuevo conejo Copo-35 (energia: 40)
+  Conejo Maya-12 tuvo una cria -> nuevo conejo Rex-36 (energia: 40)
+  Conejo Luna-20 tuvo una cria -> nuevo conejo Luna-37 (energia: 40)
+  Conejo Nube-21 tuvo una cria -> nuevo conejo Nube-38 (energia: 40)
+  Conejo Blas-23 tuvo una cria -> nuevo conejo Maya-39 (energia: 40)
+  Conejo Topo-25 tuvo una cria -> nuevo conejo Topo-40 (energia: 40)
+  Conejo Blas-27 tuvo una cria -> nuevo conejo Rex-41 (energia: 40)
+  Conejo Copo-28 tuvo una cria -> nuevo conejo Luna-42 (energia: 40)
+  Conejo Topo-6 comio Helecho-18 (+40 energia)
+  Conejo Copo-9 comio Helecho-149 (+20 energia)
+  Conejo Maya-12 comio Cardo-99 (+50 energia)
+  Conejo Luna-20 comio Trebol-140 (+30 energia)
+  Conejo Nube-21 comio Trebol-52 (+40 energia)
+  Conejo Blas-23 comio Trebol-127 (+20 energia)
+  Conejo Topo-25 comio Ortiga-98 (+50 energia)
+  Conejo Blas-27 comio Musgo-137 (+40 energia)
+  Conejo Copo-28 comio Ortiga-100 (+10 energia)
+  Conejo Blas-29 comio Helecho-124 (+10 energia)
+  Conejo Rex-32 comio Cardo-26 (+50 energia)
+  Conejo Copo-34 comio Cardo-79 (+20 energia)
+  Conejo Copo-35 comio Helecho-135 (+20 energia)
+  Conejo Rex-36 comio Trebol-92 (+40 energia)
+  Conejo Luna-37 comio Musgo-97 (+10 energia)
+  Conejo Nube-38 comio Trebol-59 (+50 energia)
+  Conejo Maya-39 comio Musgo-139 (+10 energia)
+  Conejo Topo-40 comio Ortiga-134 (+40 energia)
+  Conejo Rex-41 comio Cardo-51 (+30 energia)
+  Conejo Luna-42 comio Helecho-126 (+50 energia)
+  Lobo Zeus-1 cazo a Conejo Luna-37 (+30 energia) [cacerias: 8]
+  Lobo Colmillo-2 cazo a Conejo Nube-21 (+30 energia) [cacerias: 10]
+  Lobo Garra-3 cazo a Conejo Blas-23 (+30 energia) [cacerias: 6]
+Estado: Plantas: 40  Conejos: 18  Lobos: 3
+>>> Presione Enter para continuar...
+=== TURNO 14 | Clima: LLUVIOSO ===
+Plantas: 40  Conejos: 18  Lobos: 3
+-- Eventos --
+  Planta Cardo-2 se reprodujo -> nueva planta Trebol-151 (energia: 25)
+  Planta Cardo-48 se reprodujo -> nueva planta Helecho-152 (energia: 25)
+  Planta Trebol-53 se reprodujo -> nueva planta Trebol-153 (energia: 25)
+  Planta Helecho-57 se reprodujo -> nueva planta Helecho-154 (energia: 25)
+  Planta Helecho-58 se reprodujo -> nueva planta Ortiga-155 (energia: 25)
+  Planta Ortiga-66 se reprodujo -> nueva planta Cardo-156 (energia: 25)
+  Planta Trebol-72 se reprodujo -> nueva planta Helecho-157 (energia: 25)
+  Planta Musgo-78 se reprodujo -> nueva planta Trebol-158 (energia: 25)
+  Planta Helecho-81 se reprodujo -> nueva planta Cardo-159 (energia: 25)
+  Planta Ortiga-85 se reprodujo -> nueva planta Trebol-160 (energia: 25)
+  Planta Ortiga-89 se reprodujo -> nueva planta Musgo-161 (energia: 25)
+  Planta Musgo-96 se reprodujo -> nueva planta Cardo-162 (energia: 25)
+  Planta Trebol-104 se reprodujo -> nueva planta Ortiga-163 (energia: 25)
+  Planta Ortiga-110 se reprodujo -> nueva planta Trebol-164 (energia: 25)
+  Planta Trebol-111 se reprodujo -> nueva planta Cardo-165 (energia: 25)
+  Planta Cardo-112 se reprodujo -> nueva planta Ortiga-166 (energia: 25)
+  Planta Musgo-113 se reprodujo -> nueva planta Helecho-167 (energia: 25)
+  Planta Musgo-115 se reprodujo -> nueva planta Musgo-168 (energia: 25)
+  Planta Ortiga-116 se reprodujo -> nueva planta Musgo-169 (energia: 25)
+  Planta Trebol-117 se reprodujo -> nueva planta Trebol-170 (energia: 25)
+  Conejo Maya-12 tuvo una cria -> nuevo conejo Topo-43 (energia: 40)
+  Conejo Topo-25 tuvo una cria -> nuevo conejo Nube-44 (energia: 40)
+  Conejo Blas-27 tuvo una cria -> nuevo conejo Luna-45 (energia: 40)
+  Conejo Rex-32 tuvo una cria -> nuevo conejo Nube-46 (energia: 40)
+  Conejo Luna-33 tuvo una cria -> nuevo conejo Blas-47 (energia: 40)
+  Conejo Copo-34 tuvo una cria -> nuevo conejo Topo-48 (energia: 40)
+  Conejo Topo-6 comio Ortiga-85 (+30 energia)
+  Conejo Copo-9 comio Ortiga-166 (+10 energia)
+  Conejo Maya-12 comio Helecho-145 (+50 energia)
+  Conejo Luna-20 comio Helecho-157 (+50 energia)
+  Conejo Topo-25 comio Helecho-81 (+10 energia)
+  Conejo Blas-27 comio Trebol-111 (+50 energia)
+  Conejo Copo-28 comio Trebol-153 (+20 energia)
+  Conejo Blas-29 comio Ortiga-89 (+20 energia)
+  Conejo Rex-32 comio Trebol-141 (+40 energia)
+  Conejo Luna-33 comio Cardo-165 (+50 energia)
+  Conejo Copo-34 comio Ortiga-110 (+30 energia)
+  Conejo Copo-35 comio Musgo-78 (+50 energia)
+  Conejo Rex-36 comio Helecho-58 (+10 energia)
+  Conejo Maya-39 comio Musgo-168 (+10 energia)
+  Conejo Topo-40 comio Ortiga-132 (+10 energia)
+  Conejo Rex-41 comio Helecho-57 (+10 energia)
+  Conejo Topo-43 comio Musgo-96 (+40 energia)
+  Conejo Nube-44 comio Helecho-136 (+10 energia)
+  Conejo Luna-45 comio Cardo-156 (+50 energia)
+  Conejo Nube-46 comio Trebol-104 (+50 energia)
+  Conejo Blas-47 comio Musgo-128 (+10 energia)
+  Conejo Topo-48 comio Musgo-123 (+10 energia)
+  Lobo Zeus-1 cazo a Conejo Luna-20 (+30 energia) [cacerias: 9]
+  Lobo Colmillo-2 cazo a Conejo Luna-45 (+30 energia) [cacerias: 11]
+  Lobo Garra-3 cazo a Conejo Maya-39 (+30 energia) [cacerias: 7]
+Estado: Plantas: 38  Conejos: 21  Lobos: 3
+>>> Presione Enter para continuar...
+=== TURNO 15 | Clima: LLUVIOSO ===
+Plantas: 38  Conejos: 21  Lobos: 3
+-- Eventos --
+  Planta Musgo-1 se reprodujo -> nueva planta Ortiga-171 (energia: 25)
+  Planta Cardo-38 se reprodujo -> nueva planta Ortiga-172 (energia: 25)
+  Planta Ortiga-66 se reprodujo -> nueva planta Cardo-173 (energia: 25)
+  Planta Trebol-72 se reprodujo -> nueva planta Ortiga-174 (energia: 25)
+  Planta Cardo-112 se reprodujo -> nueva planta Helecho-175 (energia: 25)
+  Planta Musgo-113 se reprodujo -> nueva planta Helecho-176 (energia: 25)
+  Planta Musgo-115 se reprodujo -> nueva planta Helecho-177 (energia: 25)
+  Planta Ortiga-116 se reprodujo -> nueva planta Helecho-178 (energia: 25)
+  Planta Trebol-117 se reprodujo -> nueva planta Helecho-179 (energia: 25)
+  Planta Trebol-121 se reprodujo -> nueva planta Musgo-180 (energia: 25)
+  Planta Musgo-122 se reprodujo -> nueva planta Helecho-181 (energia: 25)
+  Planta Ortiga-125 se reprodujo -> nueva planta Helecho-182 (energia: 25)
+  Planta Ortiga-129 se reprodujo -> nueva planta Trebol-183 (energia: 25)
+  Planta Helecho-138 se reprodujo -> nueva planta Ortiga-184 (energia: 25)
+  Planta Trebol-142 se reprodujo -> nueva planta Musgo-185 (energia: 25)
+  Planta Trebol-143 se reprodujo -> nueva planta Cardo-186 (energia: 25)
+  Planta Helecho-144 se reprodujo -> nueva planta Trebol-187 (energia: 25)
+  Planta Trebol-146 se reprodujo -> nueva planta Trebol-188 (energia: 25)
+  Planta Musgo-147 se reprodujo -> nueva planta Cardo-189 (energia: 25)
+  Planta Helecho-148 se reprodujo -> nueva planta Ortiga-190 (energia: 25)
+  Planta Musgo-150 se reprodujo -> nueva planta Cardo-191 (energia: 25)
+  Planta Trebol-151 se reprodujo -> nueva planta Trebol-192 (energia: 25)
+  Conejo Topo-6 tuvo una cria -> nuevo conejo Nube-49 (energia: 40)
+  Conejo Maya-12 tuvo una cria -> nuevo conejo Topo-50 (energia: 40)
+  Conejo Blas-27 tuvo una cria -> nuevo conejo Rex-51 (energia: 40)
+  Conejo Copo-28 tuvo una cria -> nuevo conejo Maya-52 (energia: 40)
+  Conejo Rex-32 tuvo una cria -> nuevo conejo Nube-53 (energia: 40)
+  Conejo Luna-33 tuvo una cria -> nuevo conejo Topo-54 (energia: 40)
+  Conejo Copo-34 tuvo una cria -> nuevo conejo Luna-55 (energia: 40)
+  Conejo Copo-35 tuvo una cria -> nuevo conejo Topo-56 (energia: 40)
+  Conejo Rex-36 tuvo una cria -> nuevo conejo Maya-57 (energia: 40)
+  Conejo Topo-6 comio Trebol-192 (+50 energia)
+  Conejo Copo-9 comio Trebol-146 (+50 energia)
+  Conejo Maya-12 comio Helecho-177 (+10 energia)
+  Conejo Topo-25 comio Trebol-72 (+50 energia)
+  Conejo Blas-27 comio Ortiga-172 (+40 energia)
+  Conejo Copo-28 comio Ortiga-171 (+10 energia)
+  Conejo Blas-29 comio Cardo-173 (+50 energia)
+  Conejo Rex-32 comio Musgo-113 (+10 energia)
+  Conejo Luna-33 comio Trebol-142 (+20 energia)
+  Conejo Copo-34 comio Helecho-176 (+10 energia)
+  Conejo Copo-35 comio Trebol-164 (+30 energia)
+  Conejo Rex-36 comio Helecho-152 (+10 energia)
+  Conejo Rex-41 comio Musgo-180 (+40 energia)
+  Conejo Topo-43 comio Musgo-169 (+50 energia)
+  Conejo Nube-44 comio Helecho-179 (+40 energia)
+  Conejo Blas-47 comio Ortiga-116 (+50 energia)
+  Conejo Topo-48 comio Helecho-175 (+10 energia)
+  Conejo Nube-49 comio Cardo-2 (+50 energia)
+  Conejo Topo-50 comio Trebol-117 (+40 energia)
+  Conejo Rex-51 comio Musgo-1 (+10 energia)
+  Conejo Maya-52 comio Trebol-53 (+20 energia)
+  Conejo Nube-53 comio Ortiga-174 (+50 energia)
+  Conejo Topo-54 comio Trebol-183 (+50 energia)
+  Conejo Luna-55 comio Musgo-185 (+20 energia)
+  Conejo Topo-56 comio Cardo-38 (+40 energia)
+  Conejo Maya-57 comio Cardo-191 (+10 energia)
+  Lobo Zeus-1 cazo a Conejo Copo-35 (+30 energia) [cacerias: 10]
+  Lobo Colmillo-2 cazo a Conejo Topo-50 (+30 energia) [cacerias: 12]
+  Lobo Garra-3 fallo la caza
+Estado: Plantas: 34  Conejos: 28  Lobos: 3
+
+========== REPORTE FINAL ==========
+Causa de fin: se completaron los 15 turnos.
+Turno de mayor actividad: turno 15 (60 eventos)
+
+-- Mas longevas --
+Planta: Cardo-48 (edad 13)
+Conejo: Topo-6 (edad 15)
+Lobo:   Zeus-1 (edad 15)
+Lobo con mas cacerias: Colmillo-2 (12)
+
+-- Nacimientos y muertes --
+Plantas -> nacimientos: 179 | muertes: 158
+Conejos -> nacimientos: 51 | muertes: 29
+Lobos   -> nacimientos: 0 (no se reproducen) | muertes: 0
+
+-- Historial de poblacion --
+Plantas: maximo 56 en el turno 4 | minimo 18 en el turno 1
+Conejos: maximo 28 en el turno 15 | minimo 2 en el turno 2
+Lobos: maximo 3 en el turno 7 | minimo 2 en el turno 1
+
+-- Elementos peligrosos (de mayor a menor) --
+  Colmillo-2 (nivel 170)
+  Zeus-1 (nivel 150)
+  Garra-3 (nivel 120)
+
+-- Sobrevivientes --
+  Planta Cardo-48 | tamanio: 1 | energia: 15
+  Planta Ortiga-66 | tamanio: 5 | energia: 25
+  Planta Cardo-112 | tamanio: 1 | energia: 15
+  Planta Musgo-115 | tamanio: 1 | energia: 10
+  Planta Trebol-121 | tamanio: 4 | energia: 30
+  Planta Musgo-122 | tamanio: 2 | energia: 30
+  Planta Ortiga-125 | tamanio: 5 | energia: 30
+  Planta Ortiga-129 | tamanio: 5 | energia: 25
+  Planta Helecho-138 | tamanio: 4 | energia: 20
+  Planta Trebol-143 | tamanio: 1 | energia: 20
+  Planta Helecho-144 | tamanio: 1 | energia: 20
+  Planta Musgo-147 | tamanio: 5 | energia: 20
+  Planta Helecho-148 | tamanio: 5 | energia: 20
+  Planta Musgo-150 | tamanio: 1 | energia: 20
+  Planta Trebol-151 | tamanio: 5 | energia: 15
+  Planta Helecho-154 | tamanio: 1 | energia: 35
+  Planta Ortiga-155 | tamanio: 1 | energia: 35
+  Planta Trebol-158 | tamanio: 5 | energia: 35
+  Planta Cardo-159 | tamanio: 1 | energia: 35
+  Planta Trebol-160 | tamanio: 3 | energia: 35
+  Planta Musgo-161 | tamanio: 2 | energia: 35
+  Planta Cardo-162 | tamanio: 4 | energia: 35
+  Planta Ortiga-163 | tamanio: 5 | energia: 35
+  Planta Helecho-167 | tamanio: 1 | energia: 35
+  Planta Trebol-170 | tamanio: 4 | energia: 35
+  Planta Helecho-178 | tamanio: 5 | energia: 30
+  Planta Helecho-181 | tamanio: 2 | energia: 30
+  Planta Helecho-182 | tamanio: 5 | energia: 30
+  Planta Ortiga-184 | tamanio: 4 | energia: 30
+  Planta Cardo-186 | tamanio: 1 | energia: 30
+  Planta Trebol-187 | tamanio: 1 | energia: 30
+  Planta Trebol-188 | tamanio: 5 | energia: 30
+  Planta Cardo-189 | tamanio: 5 | energia: 30
+  Planta Ortiga-190 | tamanio: 5 | energia: 30
+  Conejo Topo-6 | energia: 96
+  Conejo Copo-9 | energia: 98
+  Conejo Maya-12 | energia: 66
+  Conejo Topo-25 | energia: 98
+  Conejo Blas-27 | energia: 90
+  Conejo Copo-28 | energia: 30
+  Conejo Blas-29 | energia: 82
+  Conejo Rex-32 | energia: 62
+  Conejo Luna-33 | energia: 72
+  Conejo Copo-34 | energia: 52
+  Conejo Rex-36 | energia: 54
+  Conejo Nube-38 | energia: 84
+  Conejo Topo-40 | energia: 84
+  Conejo Rex-41 | energia: 98
+  Conejo Luna-42 | energia: 84
+  Conejo Topo-43 | energia: 98
+  Conejo Nube-44 | energia: 86
+  Conejo Nube-46 | energia: 86
+  Conejo Blas-47 | energia: 96
+  Conejo Topo-48 | energia: 56
+  Conejo Nube-49 | energia: 88
+  Conejo Rex-51 | energia: 48
+  Conejo Maya-52 | energia: 58
+  Conejo Nube-53 | energia: 88
+  Conejo Topo-54 | energia: 88
+  Conejo Luna-55 | energia: 58
+  Conejo Topo-56 | energia: 78
+  Conejo Maya-57 | energia: 48
+  Lobo Zeus-1 | energia: 90 | cacerias: 10
+  Lobo Colmillo-2 | energia: 90 | cacerias: 12
+  Lobo Garra-3 | energia: 80 | cacerias: 7
+===================================
