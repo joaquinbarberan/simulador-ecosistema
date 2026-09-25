@@ -29,9 +29,20 @@ public abstract class Entidad {
 
     public double getEnergia() { return energia; }
     public void setEnergia(double energia) {
-        // La energia nunca puede ser negativa: si baja de 0, se lleva a 0
+        // La energia siempre queda entre 0 y 100
         if (energia < 0) energia = 0;
+        if (energia > 100) energia = 100;
         this.energia = energia;
+    }
+
+    // Resta energia (usa setEnergia, que ya valida el rango 0-100)
+    public void gastarEnergia(double cantidad) {
+        setEnergia(this.energia - cantidad);
+    }
+
+    // Suma energia (usa setEnergia, que ya valida el rango 0-100)
+    public void ganarEnergia(double cantidad) {
+        setEnergia(this.energia + cantidad);
     }
 
     public int getEdad() { return edad; }

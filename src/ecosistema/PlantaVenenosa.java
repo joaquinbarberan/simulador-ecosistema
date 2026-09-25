@@ -4,11 +4,12 @@ package ecosistema;
 // Se guarda en el mismo ArrayList<Planta> que las plantas comunes (polimorfismo).
 public class PlantaVenenosa extends Planta implements Peligroso {
 
-    public PlantaVenenosa(String nombre, double energia, int tamanio) {
-        super(nombre, energia, tamanio);
+    public PlantaVenenosa(String nombre, double energia, int tamaño) {
+        super(nombre, energia, tamaño);
     }
 
-    // En vez de nutrir, el conejo pierde energia (siempre 30, sin importar el tamanio).
+    // En vez de nutrir, el conejo pierde energia (siempre 30, sin importar el
+    // tamaño).
     @Override
     public double serComida() {
         setEnergia(0);

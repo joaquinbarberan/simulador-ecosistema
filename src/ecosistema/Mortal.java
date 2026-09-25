@@ -8,10 +8,13 @@ public interface Mortal {
     String getNombre();
 
     // Metodo default: si la energia llego a 0, la entidad muere.
-    default void verificarMuerte() {
+    // Devuelve true si la entidad murio en este llamado (para que Ecosistema pueda contarlo como evento).
+    default boolean verificarMuerte() {
         if (estaVivo() && getEnergia() <= 0) {
             morir();
             System.out.println("  " + getNombre() + " murio de inanicion");
+            return true;
         }
+        return false;
     }
 }
