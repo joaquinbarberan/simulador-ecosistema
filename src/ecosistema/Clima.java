@@ -50,6 +50,11 @@ public enum Clima {
         return bonusCazaLobo;
     }
 
+    // Alias usados por Ecosistema/Planta para leer los modificadores de este clima
+    public int getEnergiaConejo() { return modEnergiaConejo; }
+    public int getEnergiaLobo() { return modEnergiaLobo; }
+    public double getFactorPlanta() { return factorReproduccionPlanta; }
+
     // @return true si el clima permite que las plantas se reproduzcan
     public boolean permiteReproduccionPlantas() {
         return factorReproduccionPlanta > 0;

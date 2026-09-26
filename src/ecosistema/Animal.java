@@ -29,5 +29,16 @@ public abstract class Animal extends Entidad implements Mortal {
     }
 
     public int getVelocidad() { return velocidad; }
+    public void setVelocidad(int velocidad) {
+        // La velocidad no puede ser negativa
+        if (velocidad < 0) velocidad = 0;
+        this.velocidad = velocidad;
+    }
+
     public double getPeso() { return peso; }
+    public void setPeso(double peso) {
+        // El peso no puede ser negativo ni cero
+        if (peso <= 0) peso = 0.1;
+        this.peso = peso;
+    }
 }

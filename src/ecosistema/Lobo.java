@@ -66,4 +66,10 @@ public class Lobo extends Animal implements Peligroso {
     public int getExitosCaza() {
         return exitosCaza;
     }
+
+    public void setExitosCaza(int exitosCaza) {
+        // El contador de cacerias nunca puede ser negativo
+        if (exitosCaza < 0) exitosCaza = 0;
+        this.exitosCaza = exitosCaza;
+    }
 }

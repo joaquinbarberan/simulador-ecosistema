@@ -60,13 +60,13 @@ public class Ecosistema {
     // Version 2: con la energia inicial indicada. Devuelve el nombre de la entidad creada.
     public String agregarEntidad(String tipo, double energia) throws LimiteLobosException {
         if (tipo.equalsIgnoreCase("planta")) {
-            int tamanio = 1 + random.nextInt(5);
+            int tamaño = 1 + random.nextInt(5);
             Planta nueva;
             // (BONUS) 1 de cada 5 plantas es venenosa. Va a la misma lista de plantas.
             if (random.nextInt(5) == 0) {
-                nueva = new PlantaVenenosa(nuevoNombrePlanta(), energia, tamanio);
+                nueva = new PlantaVenenosa(nuevoNombrePlanta(), energia, tamaño);
             } else {
-                nueva = new Planta(nuevoNombrePlanta(), energia, tamanio);
+                nueva = new Planta(nuevoNombrePlanta(), energia, tamaño);
             }
             plantas.add(nueva);
             return nueva.getNombre();
@@ -256,6 +256,14 @@ public class Ecosistema {
 
     public void sumarNacimientoPlanta() { nacimientosPlanta++; }
     public void sumarNacimientoConejo() { nacimientosConejo++; }
+
+    // Alias usados por Conejo/Lobo al reproducirse o cazar
+    public String nombrarConejo() { return nuevoNombreConejo(); }
+    public void registrarNacimiento(Conejo cria) {
+        agregarConejo(cria);
+        sumarNacimientoConejo();
+    }
+    public Conejo buscarConejoVivoAleatorio() { return buscarConejoVivo(); }
 
     public String nuevoNombrePlanta() {
         contadorPlanta++;

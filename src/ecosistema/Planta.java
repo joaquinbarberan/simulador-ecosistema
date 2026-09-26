@@ -2,11 +2,11 @@ package ecosistema;
 
 // Planta: sirve de alimento a los conejos y se reproduce si tiene energia y el clima lo permite.
 public class Planta extends Entidad implements Reproducible {
-    private int tamanio; // 1 a 5: afecta cuanta energia da al ser comida
+    private int tamaño; // 1 a 5: afecta cuanta energia da al ser comida
 
-    public Planta(String nombre, double energia, int tamanio) {
+    public Planta(String nombre, double energia, int tamaño) {
         super(nombre, energia);
-        setTamanio(tamanio);
+        setTamaño(tamaño);
     }
 
     @Override
@@ -16,16 +16,16 @@ public class Planta extends Entidad implements Reproducible {
 
     @Override
     public void mostrarEstado() {
-        System.out.println("  Planta " + getNombre() + " | tamanio: " + tamanio
+        System.out.println("  Planta " + getNombre() + " | tamaño: " + tamaño
                 + " | energia: " + (int) getEnergia());
     }
 
-    // La planta es comida: su energia se reduce al minimo y retorna el valor nutritivo (tamanio * 10).
+    // La planta es comida: su energia se reduce al minimo y retorna el valor nutritivo (tamaño * 10).
     // PlantaVenenosa sobreescribe este metodo para devolver un valor negativo en vez de nutrir.
     public double serComida() {
         setEnergia(0);
         setViva(false);
-        return tamanio * 10;
+        return tamaño * 10;
     }
 
     @Override
@@ -40,18 +40,18 @@ public class Planta extends Entidad implements Reproducible {
     @Override
     public void reproducirse(Ecosistema eco) {
         setEnergia(getEnergia() - 20);
-        Planta cria = new Planta(eco.nuevoNombrePlanta(), 25, tamanio);
+        Planta cria = new Planta(eco.nuevoNombrePlanta(), 25, tamaño);
         eco.agregarPlanta(cria);
         eco.registrarEvento("Planta " + getNombre() + " se reprodujo -> nueva planta " + cria.getNombre()
                 + " (energia: " + (int) cria.getEnergia() + ")");
         eco.sumarNacimientoPlanta();
     }
 
-    public int getTamanio() { return tamanio; }
-    public void setTamanio(int tamanio) {
-        // El tamanio siempre queda entre 1 y 5
-        if (tamanio < 1) tamanio = 1;
-        if (tamanio > 5) tamanio = 5;
-        this.tamanio = tamanio;
+    public int getTamaño() { return tamaño; }
+    public void setTamaño(int tamaño) {
+        // El tamaño siempre queda entre 1 y 5
+        if (tamaño < 1) tamaño = 1;
+        if (tamaño > 5) tamaño = 5;
+        this.tamaño = tamaño;
     }
 }
