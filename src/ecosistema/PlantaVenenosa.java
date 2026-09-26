@@ -8,12 +8,8 @@ public class PlantaVenenosa extends Planta implements Peligroso {
         super(nombre, energia, tamaño);
     }
 
-<<<<<<< HEAD
-    // En vez de nutrir, el conejo pierde energia (siempre 30, sin importar el tamaño).
-=======
     // En vez de nutrir, el conejo pierde energia (siempre 30, sin importar el
     // tamaño).
->>>>>>> 9bf6ec525988e3caec5c6655a89975a9b9360ded
     @Override
     public double serComida() {
         setEnergia(0);
