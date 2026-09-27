@@ -128,12 +128,6 @@ simulador-ecosistema/
   `Ecosistema` puede sumarla al conteo de eventos y detectar el turno de
   mayor actividad.
 
-## Uso de IA
 
-
-- **Joaquín:** *(completar)*
-- **Fabri:** *(completar)*
-- **Lucas:** *(completar)*
-- **Licha:** *(completar)*
 
 
